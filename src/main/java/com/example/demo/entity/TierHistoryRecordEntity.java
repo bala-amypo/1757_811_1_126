@@ -1,22 +1,27 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "visit_records")
-public class VisitRecordEntity {
+@Table(name = "tier_history")
+public class TierHistoryRecordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long customerId;
+    private String oldTier;
+    private String newTier;
+    private String reason;
 
-    private LocalDate visitDate;
+    private LocalDateTime changedAt;
 
-    private String channel;
+    @PrePersist
+    public void prePersist() {
+        this.changedAt = LocalDateTime.now();
+    }
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -25,9 +30,15 @@ public class VisitRecordEntity {
     public Long getCustomerId() { return customerId; }
     public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
-    public LocalDate getVisitDate() { return visitDate; }
-    public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
+    public String getOldTier() { return oldTier; }
+    public void setOldTier(String oldTier) { this.oldTier = oldTier; }
 
-    public String getChannel() { return channel; }
-    public void setChannel(String channel) { this.channel = channel; }
+    public String getNewTier() { return newTier; }
+    public void setNewTier(String newTier) { this.newTier = newTier; }
+
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
+
+    public LocalDateTime getChangedAt() { return changedAt; }
+    public void setChangedAt(LocalDateTime changedAt) { this.changedAt = changedAt; }
 }
