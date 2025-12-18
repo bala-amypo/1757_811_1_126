@@ -1,23 +1,22 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "tier_upgrade_rules",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"fromTier","toTier"}))
-public class TierUpgradeRuleEntity {
+@Table(name = "visit_records")
+public class VisitRecordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fromTier;
-    private String toTier;
+    @Column(nullable = false)
+    private Long customerId;
 
-    private Double minSpend;
-    private Integer minVisits;
+    private LocalDate visitDate;
 
-    private Boolean active = true;
+    private String channel;
 
     // getters and setters
 }
