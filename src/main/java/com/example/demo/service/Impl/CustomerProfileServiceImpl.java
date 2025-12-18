@@ -4,7 +4,7 @@ import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import java.util.*;
 
-public class CustomerProfileService {
+public class CustomerProfileServiceImpl {
     private final CustomerProfileRepository repo;
     public CustomerProfileService(CustomerProfileRepository repo) { this.repo = repo; }
 

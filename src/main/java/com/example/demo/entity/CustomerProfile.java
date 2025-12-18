@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
         @UniqueConstraint(columnNames = "email"),
         @UniqueConstraint(columnNames = "phone")
 })
-public class CustomerProfileEntity {
+public class CustomerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
