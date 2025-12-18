@@ -18,5 +18,5 @@ public class VisitRecordEntity {
 
     private String channel;
 
-    // getters and setters
+   
 }
