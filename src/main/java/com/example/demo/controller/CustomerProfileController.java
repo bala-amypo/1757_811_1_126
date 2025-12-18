@@ -16,17 +16,17 @@ public class CustomerProfileController {
     }
 
     @PostMapping
-    public CustomerProfile create(@RequestBody CustomerProfile customer) {
+    public CustomerProfileEntity create(@RequestBody CustomerProfile customer) {
         return service.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfile getById(@PathVariable Long id) {
+    public CustomerProfileEntity getById(@PathVariable Long id) {
         return service.getCustomerById(id);
     }
 
     @GetMapping
-    public List<CustomerProfile> getAll() {
+    public List<CustomerProfileEntity> getAll() {
         return service.getAllCustomers();
     }
 
