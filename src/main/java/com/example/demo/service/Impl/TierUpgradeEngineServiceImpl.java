@@ -13,11 +13,7 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
     private final TierUpgradeRuleRepository ruleRepo;
     private final TierHistoryRecordRepository historyRepo;
 
-    public TierUpgradeEngineServiceImpl(CustomerProfileRepository c,
-                                        PurchaseRecordRepository p,
-                                        VisitRecordRepository v,
-                                        TierUpgradeRuleRepository r,
-                                        TierHistoryRecordRepository h) {
+    public TierUpgradeEngineServiceImpl(CustomerProfileRepository c,PurchaseRecordRepository p,VisitRecordRepository v,TierUpgradeRuleRepository r,TierHistoryRecordRepository h) {
         this.customerRepo = c;
         this.purchaseRepo = p;
         this.visitRepo = v;
