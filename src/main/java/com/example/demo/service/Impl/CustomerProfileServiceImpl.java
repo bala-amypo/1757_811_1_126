@@ -1,29 +1,9 @@
-package com.example.demo.service;
+package com.example.demo.repository;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.*;
+import com.example.demo.model.*;
 
-public class CustomerProfileServiceImpl {
-    private final CustomerProfileRepository repo;
-    public CustomerProfileService(CustomerProfileRepository repo) { this.repo = repo; }
-
-    public CustomerProfile createCustomer(CustomerProfile c) { return repo.save(c); }
-    public CustomerProfile getCustomerById(Long id) {
-        return repo.findById(id).orElseThrow(NoSuchElementException::new);
-    }
-    public CustomerProfile findByCustomerId(String id) {
-        return repo.findByCustomerId(id).orElseThrow(NoSuchElementException::new);
-    }
-    public List<CustomerProfile> getAllCustomers() { return repo.findAll(); }
-    public CustomerProfile updateTier(Long id, String tier) {
-        CustomerProfile c = getCustomerById(id);
-        c.setCurrentTier(tier);
-        return repo.save(c);
-    }
-    public CustomerProfile updateStatus(Long id, boolean active) {
-        CustomerProfile c = getCustomerById(id);
-        c.setActive(active);
-        return repo.save(c);
-    }
+public interface CustomerProfileRepository extends JpaRepository<CustomerProfileEntity, Long> {
+    Optional<CustomerProfileEntity> findByCustomerId(String customerId);
 }
