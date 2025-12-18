@@ -1,4 +1,4 @@
-ackage com.example.demo.controller;
+package com.example.demo.controller;
 
 import com.example.demo.model.TierUpgradeRuleEntity;
 import com.example.demo.service.TierUpgradeRuleService;
