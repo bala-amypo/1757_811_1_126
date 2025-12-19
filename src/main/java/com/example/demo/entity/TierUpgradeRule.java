@@ -7,7 +7,7 @@ import jakarta.persistence.*;
     name = "tier_upgrade_rules",
     uniqueConstraints = @UniqueConstraint(columnNames = {"fromTier", "toTier"})
 )
-public class TierUpgradeRuleEntity {
+public class TierUpgradeRule{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

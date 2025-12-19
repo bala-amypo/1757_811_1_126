@@ -17,24 +17,24 @@ public class TierUpgradeRuleController {
     }
 
     @PostMapping
-    public TierUpgradeRuleEntity create(@RequestBody TierUpgradeRuleEntity rule) {
+    public TierUpgradeRule create(@RequestBody TierUpgradeRule rule) {
         return service.createRule(rule);
     }
 
     @PutMapping("/{id}")
-    public TierUpgradeRuleEntity update(
+    public TierUpgradeRule update(
             @PathVariable Long id,
-            @RequestBody TierUpgradeRuleEntity rule) {
+            @RequestBody TierUpgradeRule rule) {
         return service.updateRule(id, rule);
     }
 
     @GetMapping("/active")
-    public List<TierUpgradeRuleEntity> getActive() {
+    public List<TierUpgradeRule> getActive() {
         return service.getActiveRules();
     }
 
     @GetMapping("/lookup")
-    public TierUpgradeRuleEntity getRule(
+    public TierUpgradeRuleE getRule(
             @RequestParam String fromTier,
             @RequestParam String toTier) {
         return service.getRule(fromTier, toTier);

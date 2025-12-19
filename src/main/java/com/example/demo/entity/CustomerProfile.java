@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "customer_profiles")
-public class CustomerProfileEntity {
+public class CustomerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,12 +54,12 @@ public class CustomerProfileEntity {
         this.email = email;
     }
 
-    // ⭐ THIS WAS MISSING
+ 
     public String getTier() {
         return tier;
     }
 
-    // ⭐ THIS WAS MISSING
+ 
     public void setTier(String tier) {
         this.tier = tier;
     }

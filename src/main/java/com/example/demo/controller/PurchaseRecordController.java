@@ -17,22 +17,22 @@ public class PurchaseRecordController {
     }
 
     @PostMapping
-    public PurchaseRecordEntity create(@RequestBody PurchaseRecordEntity purchase) {
+    public PurchaseRecord create(@RequestBody PurchaseRecord purchase) {
         return service.recordPurchase(purchase);
     }
 
     @GetMapping("/{id}")
-    public PurchaseRecordEntity getById(@PathVariable Long id) {
+    public PurchaseRecord getById(@PathVariable Long id) {
         return service.getPurchaseById(id);
     }
 
     @GetMapping("/customer/{customerId}")
-    public List<PurchaseRecordEntity> getByCustomer(@PathVariable Long customerId) {
+    public List<PurchaseRecord> getByCustomer(@PathVariable Long customerId) {
         return service.getPurchasesByCustomer(customerId);
     }
 
     @GetMapping
-    public List<PurchaseRecordEntity> getAll() {
+    public List<PurchaseRecord> getAll() {
         return service.getAllPurchases();
     }
 }

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tier_history")
-public class TierHistoryRecordEntity {
+public class TierHistoryRecord{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

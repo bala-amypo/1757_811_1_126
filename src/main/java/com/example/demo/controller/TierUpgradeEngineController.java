@@ -17,19 +17,19 @@ public class TierUpgradeEngineController {
     }
 
     @PostMapping("/evaluate/{customerId}")
-    public TierHistoryRecordEntity evaluate(
+    public TierHistoryRecord evaluate(
             @PathVariable Long customerId) {
         return service.evaluateAndUpgradeTier(customerId);
     }
 
     @GetMapping("/history/{customerId}")
-    public List<TierHistoryRecordEntity> history(
+    public List<TierHistoryRecord> history(
             @PathVariable Long customerId) {
         return service.getHistoryByCustomer(customerId);
     }
 
     @GetMapping
-    public List<TierHistoryRecordEntity> getAll() {
+    public List<TierHistoryRecord> getAll() {
         return service.getAllHistory();
     }
 }

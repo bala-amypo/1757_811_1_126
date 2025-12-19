@@ -17,29 +17,29 @@ public class CustomerProfileController {
     }
 
     @PostMapping
-    public CustomerProfileEntity create(@RequestBody CustomerProfileEntity customer) {
+    public CustomerProfile create(@RequestBody CustomerProfile customer) {
         return service.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfileEntity getById(@PathVariable Long id) {
+    public CustomerProfile getById(@PathVariable Long id) {
         return service.getCustomerById(id);
     }
 
     @GetMapping
-    public List<CustomerProfileEntity> getAll() {
+    public List<CustomerProfile> getAll() {
         return service.getAllCustomers();
     }
 
     @PutMapping("/{id}/tier")
-    public CustomerProfileEntity updateTier(
+    public CustomerProfile updateTier(
             @PathVariable Long id,
             @RequestParam String newTier) {
         return service.updateTier(id, newTier);
     }
 
     @GetMapping("/lookup/{customerId}")
-    public CustomerProfileEntity findByCustomerId(
+    public CustomerProfile findByCustomerId(
             @PathVariable String customerId) {
         return service.findByCustomerId(customerId);
     }
