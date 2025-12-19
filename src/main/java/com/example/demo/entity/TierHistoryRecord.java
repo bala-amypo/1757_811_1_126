@@ -18,8 +18,6 @@ public class TierHistoryRecord {
     private String toTier;
     private LocalDateTime upgradeDate;
 
-    // ===== GETTERS & SETTERS =====
-
     public Long getId() {
         return id;
     }

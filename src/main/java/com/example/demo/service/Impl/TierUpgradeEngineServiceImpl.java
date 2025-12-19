@@ -41,10 +41,9 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
             throw new IllegalArgumentException("Customer is inactive");
         }
 
-        TierUpgradeRule rule = ruleRepository
-                .findByFromTier(customer.getCurrentTier())
+        TierUpgradeRule rule = ruleRepository.findByFromTier(customer.getCurrentTier())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Tier rule not found"));
+                        new ResourceNotFoundException("Tier upgrade rule not found"));
 
         String oldTier = customer.getCurrentTier();
         customer.setCurrentTier(rule.getToTier());
@@ -64,7 +63,6 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
         return historyRepository.findAll();
     }
 
-    // ✅ THIS WAS MISSING — NOW FIXED
     @Override
     public List<TierHistoryRecord> getHistoryByCustomer(Long customerId) {
         return historyRepository.findByCustomerId(customerId);
