@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.CustomerProfileEntity;
+import com.example.demo.entity.CustomerProfileEntity;
 import com.example.demo.service.CustomerProfileService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,36 +17,30 @@ public class CustomerProfileController {
     }
 
     @PostMapping
-    public CustomerProfileEntity createCustomer(@RequestBody CustomerProfileEntity customer) {
+    public CustomerProfileEntity create(@RequestBody CustomerProfileEntity customer) {
         return service.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfileEntity getCustomer(@PathVariable Long id) {
+    public CustomerProfileEntity getById(@PathVariable Long id) {
         return service.getCustomerById(id);
     }
 
     @GetMapping
-    public List<CustomerProfileEntity> getAllCustomers() {
+    public List<CustomerProfileEntity> getAll() {
         return service.getAllCustomers();
     }
 
-    @PutMapping("/tier")
+    @PutMapping("/{id}/tier")
     public CustomerProfileEntity updateTier(
-            @RequestParam Long id,
-            @RequestParam String tier) {
-        return service.updateTier(id, tier);
-    }
-
-    @PutMapping("/status")
-    public CustomerProfileEntity updateStatus(
-            @RequestParam Long id,
-            @RequestParam boolean active) {
-        return service.updateStatus(id, active);
+            @PathVariable Long id,
+            @RequestParam String newTier) {
+        return service.updateTier(id, newTier);
     }
 
     @GetMapping("/lookup/{customerId}")
-    public CustomerProfileEntity findByCustomerId(@PathVariable String customerId) {
+    public CustomerProfileEntity findByCustomerId(
+            @PathVariable String customerId) {
         return service.findByCustomerId(customerId);
     }
 }
