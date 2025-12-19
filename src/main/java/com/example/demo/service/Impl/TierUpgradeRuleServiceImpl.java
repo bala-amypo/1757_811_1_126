@@ -1,53 +1,76 @@
 package com.example.demo.service;
 
-import com.example.demo.model.TierUpgradeRule;
-import com.example.demo.repository.TierUpgradeRuleRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
+public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
 
-    private final TierUpgradeRuleRepository repository;
+    private final CustomerProfileRepository customerRepo;
+    private final PurchaseRecordRepository purchaseRepo;
+    private final VisitRecordRepository visitRepo;
+    private final TierUpgradeRuleRepository ruleRepo;
+    private final TierHistoryRecordRepository historyRepo;
 
-    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repository) {
-        this.repository = repository;
+    public TierUpgradeEngineServiceImpl(
+            CustomerProfileRepository customerRepo,
+            PurchaseRecordRepository purchaseRepo,
+            VisitRecordRepository visitRepo,
+            TierUpgradeRuleRepository ruleRepo,
+            TierHistoryRecordRepository historyRepo) {
+
+        this.customerRepo = customerRepo;
+        this.purchaseRepo = purchaseRepo;
+        this.visitRepo = visitRepo;
+        this.ruleRepo = ruleRepo;
+        this.historyRepo = historyRepo;
     }
 
     @Override
-    public TierUpgradeRule createRule(TierUpgradeRule rule) {
-        return repository.save(rule);
-    }
+    public CustomerProfileEntity evaluateAndUpgradeTier(Long customerId) {
 
-    @Override
-    public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
-        TierUpgradeRule existing = repository.findById(id)
+        CustomerProfileEntity customer = customerRepo.findById(customerId)
                 .orElseThrow(NoSuchElementException::new);
 
-        existing.setFromTier(updatedRule.getFromTier());
-        existing.setToTier(updatedRule.getToTier());
-        existing.setMinSpend(updatedRule.getMinSpend());
-        existing.setMinVisits(updatedRule.getMinVisits());
-        existing.setActive(updatedRule.getActive());
+        double totalSpend = purchaseRepo.findByCustomerId(customerId)
+                .stream()
+                .mapToDouble(PurchaseRecord::getAmount)
+                .sum();
 
-        return repository.save(existing);
+        int visitCount = visitRepo.findByCustomerId(customerId).size();
+
+        for (TierUpgradeRule rule : ruleRepo.findByActiveTrue()) {
+            if (rule.getFromTier().equals(customer.getCurrentTier())
+                    && totalSpend >= rule.getMinSpend()
+                    && visitCount >= rule.getMinVisits()) {
+
+                String oldTier = customer.getCurrentTier();
+                customer.setCurrentTier(rule.getToTier());
+                customerRepo.save(customer);
+
+                TierHistoryRecord history = new TierHistoryRecord();
+                history.setCustomerId(customerId);
+                history.setOldTier(oldTier);
+                history.setNewTier(rule.getToTier());
+                history.setReason("Auto upgrade");
+
+                historyRepo.save(history);
+            }
+        }
+        return customer;
     }
 
     @Override
-    public TierUpgradeRule getRule(String fromTier, String toTier) {
-        return repository.findByFromTierAndToTier(fromTier, toTier)
-                .orElseThrow(NoSuchElementException::new);
+    public List<TierHistoryRecord> getHistoryByCustomer(Long customerId) {
+        return historyRepo.findByCustomerId(customerId);
     }
 
     @Override
-    public List<TierUpgradeRule> getActiveRules() {
-        return repository.findByActiveTrue();
-    }
-
-    @Override
-    public List<TierUpgradeRule> getAllRules() {
-        return repository.findAll();
+    public List<TierHistoryRecord> getAllHistory() {
+        return historyRepo.findAll();
     }
 }
