@@ -1,54 +1,30 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.CustomerProfile;
-import com.example.demo.repository.CustomerProfileRepository;
+import com.example.demo.entity.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
+@Service  // <-- This annotation is critical
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
-    private final CustomerProfileRepository customerRepo;
-
-    // REQUIRED constructor order
-    public CustomerProfileServiceImpl(CustomerProfileRepository customerRepo) {
-        this.customerRepo = customerRepo;
-    }
-
-    @Override
-    public CustomerProfile createCustomer(CustomerProfile customer) {
-        return customerRepo.save(customer);
-    }
+    private List<CustomerProfile> customers = new ArrayList<>();
 
     @Override
     public CustomerProfile getCustomerById(Long id) {
-        return customerRepo.findById(id)
-                .orElseThrow(NoSuchElementException::new);
-    }
-
-    @Override
-    public CustomerProfile findByCustomerId(String customerId) {
-        return customerRepo.findByCustomerId(customerId)
-                .orElseThrow(NoSuchElementException::new);
+        return customers.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
     public List<CustomerProfile> getAllCustomers() {
-        return customerRepo.findAll();
+        return customers;
     }
 
     @Override
-    public CustomerProfile updateTier(Long id, String newTier) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setCurrentTier(newTier);
-        return customerRepo.save(customer);
-    }
-
-    @Override
-    public CustomerProfile updateStatus(Long id, boolean active) {
-        CustomerProfile customer = getCustomerById(id);
-        customer.setActive(active);
-        return customerRepo.save(customer);
+    public CustomerProfile saveCustomer(CustomerProfile customer) {
+        customers.add(customer);
+        return customer;
     }
 }

@@ -1,44 +1,35 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.CustomerProfile;
+import com.example.demo.entity.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/customer")
 public class CustomerProfileController {
 
-    private final CustomerProfileService service;
+    private final CustomerProfileService customerProfileService;
 
-    public CustomerProfileController(CustomerProfileService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public CustomerProfile create(@RequestBody CustomerProfile customer) {
-        return service.createCustomer(customer);
+    @Autowired
+    public CustomerProfileController(CustomerProfileService customerProfileService) {
+        this.customerProfileService = customerProfileService;
     }
 
     @GetMapping("/{id}")
-    public CustomerProfile getById(@PathVariable Long id) {
-        return service.getCustomerById(id);
+    public CustomerProfile getCustomer(@PathVariable Long id) {
+        return customerProfileService.getCustomerById(id);
     }
 
-    @GetMapping
-    public List<CustomerProfile> getAll() {
-        return service.getAllCustomers();
+    @GetMapping("/all")
+    public List<CustomerProfile> getAllCustomers() {
+        return customerProfileService.getAllCustomers();
     }
 
-    @PutMapping("/tier")
-    public CustomerProfile updateTier(@RequestParam Long id,
-                                      @RequestParam String tier) {
-        return service.updateTier(id, tier);
-    }
-
-    @GetMapping("/lookup/{customerId}")
-    public CustomerProfile lookup(@PathVariable String customerId) {
-        return service.findByCustomerId(customerId);
+    @PostMapping("/save")
+    public CustomerProfile saveCustomer(@RequestBody CustomerProfile customer) {
+        return customerProfileService.saveCustomer(customer);
     }
 }
