@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
-import java.util.*;
-import com.example.demo.model.*;
+import com.example.demo.entity.TierHistoryRecordEntity;
+import java.util.List;
 
 public interface TierUpgradeEngineService {
-    CustomerProfileEntity evaluateAndUpgradeTier(Long customerId);
+
+    TierHistoryRecordEntity evaluateAndUpgradeTier(Long customerId);
+
     List<TierHistoryRecordEntity> getHistoryByCustomer(Long customerId);
+
     List<TierHistoryRecordEntity> getAllHistory();
 }
