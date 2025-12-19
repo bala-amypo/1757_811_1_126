@@ -18,23 +18,23 @@ public class PurchaseRecordServiceImpl implements PurchaseRecordService {
     }
 
     @Override
-    public PurchaseRecordEntity recordPurchase(PurchaseRecordEntity purchase) {
+    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
         return repository.save(purchase);
     }
 
     @Override
-    public PurchaseRecordEntity getPurchaseById(Long id) {
+    public PurchaseRecord getPurchaseById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Purchase not found"));
     }
 
     @Override
-    public List<PurchaseRecordEntity> getPurchasesByCustomer(Long customerId) {
+    public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) {
         return repository.findByCustomerId(customerId);
     }
 
     @Override
-    public List<PurchaseRecordEntity> getAllPurchases() {
+    public List<PurchaseRecord> getAllPurchases() {
         return repository.findAll();
     }
 }

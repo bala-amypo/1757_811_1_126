@@ -39,9 +39,9 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
     }
 
     @Override
-    public TierHistoryRecordEntity evaluateAndUpgradeTier(Long customerId) {
+    public TierHistoryRecord evaluateAndUpgradeTier(Long customerId) {
 
-        CustomerProfileEntity customer = customerRepo.findById(customerId)
+        CustomerProfile customer = customerRepo.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
 
         double totalSpend = purchaseRepo.findByCustomerId(customerId)
@@ -49,7 +49,7 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
 
         long totalVisits = visitRepo.findByCustomerId(customerId).size();
 
-        for (TierUpgradeRuleEntity rule : ruleRepo.findByActiveTrue()) {
+        for (TierUpgradeRule rule : ruleRepo.findByActiveTrue()) {
             if (totalSpend >= rule.getMinSpend()
                     && totalVisits >= rule.getMinVisits()
                     && customer.getTier().equals(rule.getFromTier())) {
@@ -57,7 +57,7 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
                 customer.setTier(rule.getToTier());
                 customerRepo.save(customer);
 
-                TierHistoryRecordEntity history = new TierHistoryRecordEntity();
+                TierHistoryRecord history = new TierHistoryRecord();
                 history.setCustomerId(customerId);
                 history.setFromTier(rule.getFromTier());
                 history.setToTier(rule.getToTier());
@@ -70,12 +70,12 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
     }
 
     @Override
-    public List<TierHistoryRecordEntity> getHistoryByCustomer(Long customerId) {
+    public List<TierHistoryRecord> getHistoryByCustomer(Long customerId) {
         return historyRepo.findByCustomerId(customerId);
     }
 
     @Override
-    public List<TierHistoryRecordEntity> getAllHistory() {
+    public List<TierHistoryRecord> getAllHistory() {
         return historyRepo.findAll();
     }
 }

@@ -18,7 +18,7 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public TierUpgradeRuleEntity createRule(TierUpgradeRuleEntity rule) {
+    public TierUpgradeRule createRule(TierUpgradeRule rule) {
         if (rule.getMinSpend() < 0 || rule.getMinVisits() < 0) {
             throw new IllegalArgumentException("Invalid rule values");
         }
@@ -26,8 +26,8 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public TierUpgradeRuleEntity updateRule(Long id, TierUpgradeRuleEntity updatedRule) {
-        TierUpgradeRuleEntity rule = repository.findById(id)
+    public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
+        TierUpgradeRule rule = repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
 
         rule.setFromTier(updatedRule.getFromTier());
@@ -40,18 +40,18 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     }
 
     @Override
-    public List<TierUpgradeRuleEntity> getActiveRules() {
+    public List<TierUpgradeRule> getActiveRules() {
         return repository.findByActiveTrue();
     }
 
     @Override
-    public TierUpgradeRuleEntity getRule(String fromTier, String toTier) {
+    public TierUpgradeRule getRule(String fromTier, String toTier) {
         return repository.findByFromTierAndToTier(fromTier, toTier)
                 .orElseThrow(() -> new NoSuchElementException("Rule not found"));
     }
 
     @Override
-    public List<TierUpgradeRuleEntity> getAllRules() {
+    public List<TierUpgradeRule> getAllRules() {
         return repository.findAll();
     }
 }
