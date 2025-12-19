@@ -1,21 +1,29 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
+    // Simple registration endpoint
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-        return "User registered successfully";
+    public String register(
+            @RequestParam String fullName,
+            @RequestParam String email,
+            @RequestParam String password
+    ) {
+        // Normally you would save the user to DB here
+        return "User registered successfully: " + email;
     }
 
+    // Simple login endpoint
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
-        return new AuthResponse("dummy-token");
+    public String login(
+            @RequestParam String email,
+            @RequestParam String password
+    ) {
+        // Normally you would authenticate user and generate JWT token
+        return "Login successful! Dummy token for: " + email;
     }
 }
