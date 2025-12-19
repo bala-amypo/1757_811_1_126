@@ -20,19 +20,35 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public CustomerProfile createCustomer(CustomerProfile customer) {
+
+        if (repository.findByCustomerId(customer.getCustomerId()).isPresent()) {
+            throw new IllegalArgumentException("Customer ID already exists");
+        }
+
+        if (customer.getCurrentTier() == null) {
+            customer.setCurrentTier("BRONZE");
+        }
+
         return repository.save(customer);
     }
 
     @Override
     public CustomerProfile getCustomerById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Customer not found"));
     }
 
     @Override
     public CustomerProfile findByCustomerId(String customerId) {
         return repository.findByCustomerId(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Customer not found"));
+    }
+
+    @Override
+    public Optional<CustomerProfile> findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
     @Override
@@ -52,11 +68,5 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         CustomerProfile customer = getCustomerById(id);
         customer.setActive(active);
         return repository.save(customer);
-    }
-
-
-    @Override
-    public Optional<CustomerProfile> findByEmail(String email) {
-        return repository.findByEmail(email);
     }
 }
