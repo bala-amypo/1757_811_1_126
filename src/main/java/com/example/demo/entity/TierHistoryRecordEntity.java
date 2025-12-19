@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tier_history_records")
+@Table(name = "tier_history")
 public class TierHistoryRecordEntity {
 
     @Id
@@ -12,32 +12,14 @@ public class TierHistoryRecordEntity {
     private Long id;
 
     private Long customerId;
-    private String oldTier;
-    private String newTier;
-    private String reason;
+
+    private String fromTier;   // ⭐ REQUIRED
+
+    private String toTier;     // ⭐ REQUIRED
+
     private LocalDateTime changedAt;
 
-    public TierHistoryRecordEntity() {
-    }
-
-    public TierHistoryRecordEntity(
-            Long customerId,
-            String oldTier,
-            String newTier,
-            String reason,
-            LocalDateTime changedAt) {
-
-        this.customerId = customerId;
-        this.oldTier = oldTier;
-        this.newTier = newTier;
-        this.reason = reason;
-        this.changedAt = changedAt;
-    }
-
-    @PrePersist
-    public void onCreate() {
-        this.changedAt = LocalDateTime.now();
-    }
+    // 🔹 Getters and Setters
 
     public Long getId() {
         return id;
@@ -55,28 +37,24 @@ public class TierHistoryRecordEntity {
         this.customerId = customerId;
     }
 
-    public String getOldTier() {
-        return oldTier;
+    // ⭐ THIS WAS MISSING
+    public String getFromTier() {
+        return fromTier;
     }
 
-    public void setOldTier(String oldTier) {
-        this.oldTier = oldTier;
+    // ⭐ THIS WAS MISSING
+    public void setFromTier(String fromTier) {
+        this.fromTier = fromTier;
     }
 
-    public String getNewTier() {
-        return newTier;
+    // ⭐ THIS WAS MISSING
+    public String getToTier() {
+        return toTier;
     }
 
-    public void setNewTier(String newTier) {
-        this.newTier = newTier;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
+    // ⭐ THIS WAS MISSING
+    public void setToTier(String toTier) {
+        this.toTier = toTier;
     }
 
     public LocalDateTime getChangedAt() {

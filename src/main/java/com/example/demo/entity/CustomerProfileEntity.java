@@ -1,17 +1,9 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(
-    name = "customer_profiles",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "customerId"),
-        @UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "phone")
-    }
-)
+@Table(name = "customer_profiles")
 public class CustomerProfileEntity {
 
     @Id
@@ -19,45 +11,16 @@ public class CustomerProfileEntity {
     private Long id;
 
     private String customerId;
-    private String fullName;
+
+    private String name;
+
     private String email;
-    private String phone;
-    private String currentTier;
-    private Boolean active;
 
-    private LocalDateTime createdAt;
+    private String tier;     // ⭐ REQUIRED
 
-    public CustomerProfileEntity() {
-    }
+    private boolean active;
 
-    public CustomerProfileEntity(
-            String customerId,
-            String fullName,
-            String email,
-            String phone,
-            String currentTier,
-            Boolean active,
-            LocalDateTime createdAt) {
-
-        this.customerId = customerId;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.currentTier = currentTier;
-        this.active = active;
-        this.createdAt = createdAt;
-    }
-
-    @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        if (this.currentTier == null) {
-            this.currentTier = "BRONZE";
-        }
-        if (this.active == null) {
-            this.active = true;
-        }
-    }
+    // 🔹 Getters and Setters
 
     public Long getId() {
         return id;
@@ -75,12 +38,12 @@ public class CustomerProfileEntity {
         this.customerId = customerId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -91,35 +54,21 @@ public class CustomerProfileEntity {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    // ⭐ THIS WAS MISSING
+    public String getTier() {
+        return tier;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    // ⭐ THIS WAS MISSING
+    public void setTier(String tier) {
+        this.tier = tier;
     }
 
-    public String getCurrentTier() {
-        return currentTier;
-    }
-
-    public void setCurrentTier(String currentTier) {
-        this.currentTier = currentTier;
-    }
-
-    public Boolean getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 }
