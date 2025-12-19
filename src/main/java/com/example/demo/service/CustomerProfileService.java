@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import java.util.*;
 import com.example.demo.model.*;
-
+@Service
 public interface CustomerProfileService {
     CustomerProfileEntity createCustomer(CustomerProfileEntity customer);
     CustomerProfileEntity getCustomerById(Long id);
