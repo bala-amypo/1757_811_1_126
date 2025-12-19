@@ -4,35 +4,55 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tier_history_records")
 public class TierHistoryRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long customerId;
-    private String oldTier;
-    private String newTier;
-    private String reason;
-    private LocalDateTime changedAt;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private CustomerProfile customer;
 
-    @PrePersist
-    public void prePersist() {
-        if (changedAt == null) changedAt = LocalDateTime.now();
+    private String fromTier;
+    private String toTier;
+    private LocalDateTime upgradeDate;
+
+    // ===== GETTERS & SETTERS =====
+
+    public Long getId() {
+        return id;
     }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
-    public String getOldTier() { return oldTier; }
-    public void setOldTier(String oldTier) { this.oldTier = oldTier; }
-    public String getNewTier() { return newTier; }
-    public void setNewTier(String newTier) { this.newTier = newTier; }
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
-    public LocalDateTime getChangedAt() { return changedAt; }
-    public void setChangedAt(LocalDateTime changedAt) { this.changedAt = changedAt; }
+    public CustomerProfile getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerProfile customer) {
+        this.customer = customer;
+    }
+
+    public String getFromTier() {
+        return fromTier;
+    }
+
+    public void setFromTier(String fromTier) {
+        this.fromTier = fromTier;
+    }
+
+    public String getToTier() {
+        return toTier;
+    }
+
+    public void setToTier(String toTier) {
+        this.toTier = toTier;
+    }
+
+    public LocalDateTime getUpgradeDate() {
+        return upgradeDate;
+    }
+
+    public void setUpgradeDate(LocalDateTime upgradeDate) {
+        this.upgradeDate = upgradeDate;
+    }
 }
