@@ -1,19 +1,19 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.CustomerProfileEntity;
+import com.example.demo.entity.CustomerProfile;
 import java.util.List;
 
 public interface CustomerProfileService {
 
-    CustomerProfileEntity createCustomer(CustomerProfileEntity customer);
+    CustomerProfile createCustomer(CustomerProfile customer);
 
-    CustomerProfileEntity getCustomerById(Long id);
+    CustomerProfile getCustomerById(Long id);
 
-    CustomerProfileEntity findByCustomerId(String customerId);
+    CustomerProfile findByCustomerId(String customerId);
 
-    List<CustomerProfileEntity> getAllCustomers();
+    List<CustomerProfile> getAllCustomers();
 
-    CustomerProfileEntity updateTier(Long id, String newTier);
+    CustomerProfile updateTier(Long id, String newTier);
 
-    CustomerProfileEntity updateStatus(Long id, boolean active);
+    CustomerProfile updateStatus(Long id, boolean active);
 }

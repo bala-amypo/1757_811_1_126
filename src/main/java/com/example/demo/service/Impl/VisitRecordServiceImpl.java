@@ -18,23 +18,23 @@ public class VisitRecordServiceImpl implements VisitRecordService {
     }
 
     @Override
-    public VisitRecordEntity recordVisit(VisitRecordEntity visit) {
+    public VisitRecord recordVisit(VisitRecord visit) {
         return repository.save(visit);
     }
 
     @Override
-    public VisitRecordEntity getVisitById(Long id) {
+    public VisitRecord getVisitById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Visit not found"));
     }
 
     @Override
-    public List<VisitRecordEntity> getVisitsByCustomer(Long customerId) {
+    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
         return repository.findByCustomerId(customerId);
     }
 
     @Override
-    public List<VisitRecordEntity> getAllVisits() {
+    public List<VisitRecord> getAllVisits() {
         return repository.findAll();
     }
 }
