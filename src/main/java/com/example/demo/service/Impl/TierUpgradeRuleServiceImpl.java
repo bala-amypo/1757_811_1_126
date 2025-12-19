@@ -45,3 +45,11 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     @Override
     public TierUpgradeRuleEntity getRule(String fromTier, String toTier) {
         return repository.findByFromTierAndToTier(fromTier, toTier)
+                .orElseThrow(() -> new NoSuchElementException("Rule not found"));
+    }
+
+    @Override
+    public List<TierUpgradeRuleEntity> getAllRules() {
+        return repository.findAll();
+    }
+}
