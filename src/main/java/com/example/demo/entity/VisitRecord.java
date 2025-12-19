@@ -15,7 +15,7 @@ public class VisitRecord {
     private LocalDate visitDate;
     private String channel;
 
-    public VisitRecordEntity() {
+    public VisitRecord() {
     }
 
     public VisitRecordEntity(

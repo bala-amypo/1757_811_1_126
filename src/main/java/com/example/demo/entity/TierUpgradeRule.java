@@ -19,10 +19,10 @@ public class TierUpgradeRule{
     private Integer minVisits;
     private Boolean active;
 
-    public TierUpgradeRuleEntity() {
+    public TierUpgradeRule() {
     }
 
-    public TierUpgradeRuleEntity(
+    public TierUpgradeRule(
             String fromTier,
             String toTier,
             Double minSpend,

@@ -16,10 +16,10 @@ public class PurchaseRecord {
     private LocalDate purchaseDate;
     private String storeLocation;
 
-    public PurchaseRecordEntity() {
+    public PurchaseRecord() {
     }
 
-    public PurchaseRecordEntity(
+    public PurchaseRecord(
             Long customerId,
             Double amount,
             LocalDate purchaseDate,
