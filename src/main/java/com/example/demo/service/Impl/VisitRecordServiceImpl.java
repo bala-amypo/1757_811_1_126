@@ -1,7 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.model.VisitRecord;
+import com.example.demo.model.VisitRecordEntity;
 import com.example.demo.repository.VisitRecordRepository;
+import com.example.demo.service.VisitRecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class VisitRecordServiceImpl implements VisitRecordService {
     }
 
     @Override
-    public VisitRecord recordVisit(VisitRecord visit) {
+    public VisitRecordEntity recordVisit(VisitRecordEntity visit) {
         if (!VALID_CHANNELS.contains(visit.getChannel())) {
             throw new IllegalArgumentException("Invalid visit channel");
         }
@@ -29,17 +30,17 @@ public class VisitRecordServiceImpl implements VisitRecordService {
     }
 
     @Override
-    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
+    public List<VisitRecordEntity> getVisitsByCustomer(Long customerId) {
         return repository.findByCustomerId(customerId);
     }
 
     @Override
-    public List<VisitRecord> getAllVisits() {
+    public List<VisitRecordEntity> getAllVisits() {
         return repository.findAll();
     }
 
     @Override
-    public VisitRecord getVisitById(Long id) {
+    public VisitRecordEntity getVisitById(Long id) {
         return repository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
     }
