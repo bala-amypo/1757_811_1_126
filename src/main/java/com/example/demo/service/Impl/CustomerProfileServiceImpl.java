@@ -3,10 +3,12 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.CustomerProfileEntity;
 import com.example.demo.repository.CustomerProfileRepository;
 import com.example.demo.service.CustomerProfileService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service   // ⭐ THIS WAS MISSING
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private final CustomerProfileRepository repository;
@@ -17,12 +19,6 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public CustomerProfileEntity createCustomer(CustomerProfileEntity customer) {
-        if (repository.findByCustomerId(customer.getCustomerId()).isPresent()) {
-            throw new IllegalArgumentException("Customer ID already exists");
-        }
-        if (customer.getCurrentTier() == null) {
-            customer.setCurrentTier("BRONZE");
-        }
         return repository.save(customer);
     }
 
@@ -45,15 +41,15 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public CustomerProfileEntity updateTier(Long id, String newTier) {
-        CustomerProfileEntity c = getCustomerById(id);
-        c.setCurrentTier(newTier);
-        return repository.save(c);
+        CustomerProfileEntity customer = getCustomerById(id);
+        customer.setTier(newTier);
+        return repository.save(customer);
     }
 
     @Override
     public CustomerProfileEntity updateStatus(Long id, boolean active) {
-        CustomerProfileEntity c = getCustomerById(id);
-        c.setActive(active);
-        return repository.save(c);
+        CustomerProfileEntity customer = getCustomerById(id);
+        customer.setActive(active);
+        return repository.save(customer);
     }
 }
