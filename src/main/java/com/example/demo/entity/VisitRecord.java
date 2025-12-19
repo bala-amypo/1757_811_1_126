@@ -1,7 +1,8 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "visit_records")
@@ -12,17 +13,21 @@ public class VisitRecord {
     private Long id;
 
     private Long customerId;
+
     private LocalDate visitDate;
+
     private String channel;
 
     @PrePersist
-    public void prePersist() {
-        if (visitDate == null) visitDate = LocalDate.now();
+    public void validate() {
+        List<String> valid = List.of("STORE", "APP", "WEB");
+        if (!valid.contains(channel)) {
+            throw new IllegalArgumentException("Invalid visit channel");
+        }
     }
 
     // Getters & Setters
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public Long getCustomerId() { return customerId; }
     public void setCustomerId(Long customerId) { this.customerId = customerId; }
     public LocalDate getVisitDate() { return visitDate; }

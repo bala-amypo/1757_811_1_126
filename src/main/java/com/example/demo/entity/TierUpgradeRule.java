@@ -1,9 +1,12 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tier_upgrade_rules")
+@Table(
+  name = "tier_upgrade_rules",
+  uniqueConstraints = @UniqueConstraint(columnNames = {"fromTier", "toTier"})
+)
 public class TierUpgradeRule {
 
     @Id
@@ -14,16 +17,10 @@ public class TierUpgradeRule {
     private String toTier;
     private Double minSpend;
     private Integer minVisits;
-    private Boolean active;
-
-    @PrePersist
-    public void prePersist() {
-        if (active == null) active = true;
-    }
+    private Boolean active = true;
 
     // Getters & Setters
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public String getFromTier() { return fromTier; }
     public void setFromTier(String fromTier) { this.fromTier = fromTier; }
     public String getToTier() { return toTier; }

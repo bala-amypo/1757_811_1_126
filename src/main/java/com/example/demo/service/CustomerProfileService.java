@@ -1,9 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.CustomerProfile;
-
+import com.example.demo.model.CustomerProfile;
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomerProfileService {
 
@@ -18,7 +16,4 @@ public interface CustomerProfileService {
     CustomerProfile updateTier(Long id, String newTier);
 
     CustomerProfile updateStatus(Long id, boolean active);
-
- 
-    Optional<CustomerProfile> findByEmail(String email);
 }

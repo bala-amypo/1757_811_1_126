@@ -1,70 +1,68 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.CustomerProfile;
-import com.example.demo.entity.TierHistoryRecord;
-import com.example.demo.entity.TierUpgradeRule;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.CustomerProfileRepository;
-import com.example.demo.repository.TierHistoryRecordRepository;
-import com.example.demo.repository.TierUpgradeRuleRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.TierUpgradeEngineService;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-@Service
 public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
 
-    private final CustomerProfileRepository customerRepository;
-    private final TierUpgradeRuleRepository ruleRepository;
-    private final TierHistoryRecordRepository historyRepository;
+    private final CustomerProfileRepository customerRepo;
+    private final PurchaseRecordRepository purchaseRepo;
+    private final VisitRecordRepository visitRepo;
+    private final TierUpgradeRuleRepository ruleRepo;
+    private final TierHistoryRecordRepository historyRepo;
 
     public TierUpgradeEngineServiceImpl(
-            CustomerProfileRepository customerRepository,
-            TierUpgradeRuleRepository ruleRepository,
-            TierHistoryRecordRepository historyRepository) {
-
-        this.customerRepository = customerRepository;
-        this.ruleRepository = ruleRepository;
-        this.historyRepository = historyRepository;
+        CustomerProfileRepository customerRepo,
+        PurchaseRecordRepository purchaseRepo,
+        VisitRecordRepository visitRepo,
+        TierUpgradeRuleRepository ruleRepo,
+        TierHistoryRecordRepository historyRepo
+    ) {
+        this.customerRepo = customerRepo;
+        this.purchaseRepo = purchaseRepo;
+        this.visitRepo = visitRepo;
+        this.ruleRepo = ruleRepo;
+        this.historyRepo = historyRepo;
     }
 
     @Override
-    public TierHistoryRecord evaluateAndUpgradeTier(Long customerId) {
+    public void evaluateAndUpgradeTier(Long customerId) {
+        CustomerProfile customer = customerRepo.findById(customerId)
+                .orElseThrow(NoSuchElementException::new);
 
-        CustomerProfile customer = customerRepository.findById(customerId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Customer not found"));
+        double totalSpend = purchaseRepo.findByCustomerId(customerId)
+                .stream().mapToDouble(PurchaseRecord::getAmount).sum();
 
-        if (!customer.getActive()) {
-            throw new IllegalArgumentException("Customer is inactive");
+        int visits = visitRepo.findByCustomerId(customerId).size();
+
+        for (TierUpgradeRule rule : ruleRepo.findByActiveTrue()) {
+            if (rule.getFromTier().equals(customer.getCurrentTier())
+                    && totalSpend >= rule.getMinSpend()
+                    && visits >= rule.getMinVisits()) {
+
+                TierHistoryRecord history = new TierHistoryRecord();
+                history.setCustomerId(customerId);
+                history.setOldTier(customer.getCurrentTier());
+                history.setNewTier(rule.getToTier());
+                history.setReason("Auto upgrade");
+                historyRepo.save(history);
+
+                customer.setCurrentTier(rule.getToTier());
+                customerRepo.save(customer);
+            }
         }
-
-        TierUpgradeRule rule = ruleRepository.findByFromTier(customer.getCurrentTier())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Tier upgrade rule not found"));
-
-        String oldTier = customer.getCurrentTier();
-        customer.setCurrentTier(rule.getToTier());
-        customerRepository.save(customer);
-
-        TierHistoryRecord history = new TierHistoryRecord();
-        history.setCustomer(customer);
-        history.setFromTier(oldTier);
-        history.setToTier(rule.getToTier());
-        history.setUpgradeDate(LocalDateTime.now());
-
-        return historyRepository.save(history);
-    }
-
-    @Override
-    public List<TierHistoryRecord> getAllHistory() {
-        return historyRepository.findAll();
     }
 
     @Override
     public List<TierHistoryRecord> getHistoryByCustomer(Long customerId) {
-        return historyRepository.findByCustomerId(customerId);
+        return historyRepo.findByCustomerId(customerId);
+    }
+
+    @Override
+    public List<TierHistoryRecord> getAllHistory() {
+        return historyRepo.findAll();
     }
 }
