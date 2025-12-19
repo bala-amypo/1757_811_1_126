@@ -1,7 +1,15 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.CustomerProfileEntity;
+import com.example.demo.model.PurchaseRecordEntity;
+import com.example.demo.model.VisitRecordEntity;
+import com.example.demo.model.TierUpgradeRuleEntity;
+import com.example.demo.model.TierHistoryRecordEntity;
+import com.example.demo.repository.CustomerProfileRepository;
+import com.example.demo.repository.PurchaseRecordRepository;
+import com.example.demo.repository.VisitRecordRepository;
+import com.example.demo.repository.TierUpgradeRuleRepository;
+import com.example.demo.repository.TierHistoryRecordRepository;
 import com.example.demo.service.TierUpgradeEngineService;
 import org.springframework.stereotype.Service;
 
@@ -42,12 +50,12 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
                 .mapToDouble(PurchaseRecordEntity::getAmount)
                 .sum();
 
-        int visits = visitRepo.findByCustomerId(customerId).size();
+        int visitCount = visitRepo.findByCustomerId(customerId).size();
 
-        for (TierUpgradeRule rule : ruleRepo.findByActiveTrue()) {
+        for (TierUpgradeRuleEntity rule : ruleRepo.findByActiveTrue()) {
             if (rule.getFromTier().equals(customer.getCurrentTier())
                     && totalSpend >= rule.getMinSpend()
-                    && visits >= rule.getMinVisits()) {
+                    && visitCount >= rule.getMinVisits()) {
 
                 String oldTier = customer.getCurrentTier();
                 customer.setCurrentTier(rule.getToTier());
