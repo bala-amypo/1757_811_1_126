@@ -1,7 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.model.PurchaseRecord;
+import com.example.demo.model.PurchaseRecordEntity;
 import com.example.demo.repository.PurchaseRecordRepository;
+import com.example.demo.service.PurchaseRecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,25 +18,25 @@ public class PurchaseRecordServiceImpl implements PurchaseRecordService {
     }
 
     @Override
-    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
+    public PurchaseRecordEntity recordPurchase(PurchaseRecordEntity purchase) {
         if (purchase.getAmount() == null || purchase.getAmount() <= 0) {
-            throw new IllegalArgumentException("Purchase amount must be greater than zero");
+            throw new IllegalArgumentException("Purchase amount must be positive");
         }
         return repository.save(purchase);
     }
 
     @Override
-    public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) {
+    public List<PurchaseRecordEntity> getPurchasesByCustomer(Long customerId) {
         return repository.findByCustomerId(customerId);
     }
 
     @Override
-    public List<PurchaseRecord> getAllPurchases() {
+    public List<PurchaseRecordEntity> getAllPurchases() {
         return repository.findAll();
     }
 
     @Override
-    public PurchaseRecord getPurchaseById(Long id) {
+    public PurchaseRecordEntity getPurchaseById(Long id) {
         return repository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
     }
