@@ -1,39 +1,53 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
-import com.example.demo.service.*;
-import com.example.demo.repository.*;
-import com.example.demo.model.*;
-import java.util.*;
+import com.example.demo.model.TierUpgradeRule;
+import com.example.demo.repository.TierUpgradeRuleRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
 @Service
 public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
-    private final TierUpgradeRuleRepository repo;
+    private final TierUpgradeRuleRepository repository;
 
-    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repo) {
-        this.repo = repo;
+    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repository) {
+        this.repository = repository;
     }
 
-    public TierUpgradeRuleEntity createRule(TierUpgradeRuleEntity r) {
-        return repo.save(r);
+    @Override
+    public TierUpgradeRule createRule(TierUpgradeRule rule) {
+        return repository.save(rule);
     }
 
-    public TierUpgradeRuleEntity updateRule(Long id, TierUpgradeRuleEntity r) {
-        TierUpgradeRuleEntity e = repo.findById(id).orElseThrow(NoSuchElementException::new);
-        e.setMinSpend(r.getMinSpend());
-        e.setMinVisits(r.getMinVisits());
-        e.setActive(r.getActive());
-        return repo.save(e);
+    @Override
+    public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
+        TierUpgradeRule existing = repository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
+
+        existing.setFromTier(updatedRule.getFromTier());
+        existing.setToTier(updatedRule.getToTier());
+        existing.setMinSpend(updatedRule.getMinSpend());
+        existing.setMinVisits(updatedRule.getMinVisits());
+        existing.setActive(updatedRule.getActive());
+
+        return repository.save(existing);
     }
 
-    public TierUpgradeRuleEntity getRule(String from, String to) {
-        return repo.findByFromTierAndToTier(from, to).orElseThrow(NoSuchElementException::new);
+    @Override
+    public TierUpgradeRule getRule(String fromTier, String toTier) {
+        return repository.findByFromTierAndToTier(fromTier, toTier)
+                .orElseThrow(NoSuchElementException::new);
     }
 
-    public List<TierUpgradeRuleEntity> getActiveRules() {
-        return repo.findByActiveTrue();
+    @Override
+    public List<TierUpgradeRule> getActiveRules() {
+        return repository.findByActiveTrue();
     }
 
-    public List<TierUpgradeRuleEntity> getAllRules() {
-        return repo.findAll();
+    @Override
+    public List<TierUpgradeRule> getAllRules() {
+        return repository.findAll();
     }
 }

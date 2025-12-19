@@ -1,33 +1,46 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
-import com.example.demo.service.*;
-import com.example.demo.repository.*;
-import com.example.demo.model.*;
-import java.util.*;
+import com.example.demo.model.VisitRecord;
+import com.example.demo.repository.VisitRecordRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository repo;
+    private static final Set<String> VALID_CHANNELS =
+            Set.of("STORE", "APP", "WEB");
 
-    public VisitRecordServiceImpl(VisitRecordRepository repo) {
-        this.repo = repo;
+    private final VisitRecordRepository repository;
+
+    public VisitRecordServiceImpl(VisitRecordRepository repository) {
+        this.repository = repository;
     }
 
-    public VisitRecordEntity recordVisit(VisitRecordEntity v) {
-        if (!List.of("STORE","APP","WEB").contains(v.getChannel()))
-            throw new IllegalArgumentException();
-        return repo.save(v);
+    @Override
+    public VisitRecord recordVisit(VisitRecord visit) {
+        if (!VALID_CHANNELS.contains(visit.getChannel())) {
+            throw new IllegalArgumentException("Invalid visit channel");
+        }
+        return repository.save(visit);
     }
 
-    public List<VisitRecordEntity> getVisitsByCustomer(Long id) {
-        return repo.findByCustomerId(id);
+    @Override
+    public List<VisitRecord> getVisitsByCustomer(Long customerId) {
+        return repository.findByCustomerId(customerId);
     }
 
-    public List<VisitRecordEntity> getAllVisits() {
-        return repo.findAll();
+    @Override
+    public List<VisitRecord> getAllVisits() {
+        return repository.findAll();
     }
 
-    public VisitRecordEntity getVisitById(Long id) {
-        return repo.findById(id).orElseThrow(NoSuchElementException::new);
+    @Override
+    public VisitRecord getVisitById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
     }
 }
