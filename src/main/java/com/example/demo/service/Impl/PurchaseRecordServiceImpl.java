@@ -1,42 +1,35 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.PurchaseRecord;
+import com.example.demo.entity.PurchaseRecord;
 import com.example.demo.repository.PurchaseRecordRepository;
 import com.example.demo.service.PurchaseRecordService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
+@Service
 public class PurchaseRecordServiceImpl implements PurchaseRecordService {
 
-    private final PurchaseRecordRepository purchaseRepo;
+    private final PurchaseRecordRepository purchaseRecordRepository;
 
-    // REQUIRED constructor order
-    public PurchaseRecordServiceImpl(PurchaseRecordRepository purchaseRepo) {
-        this.purchaseRepo = purchaseRepo;
+    @Autowired
+    public PurchaseRecordServiceImpl(PurchaseRecordRepository purchaseRecordRepository) {
+        this.purchaseRecordRepository = purchaseRecordRepository;
     }
 
     @Override
-    public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
-        if (purchase.getAmount() == null || purchase.getAmount() <= 0) {
-            throw new IllegalArgumentException("Purchase amount must be greater than zero");
-        }
-        return purchaseRepo.save(purchase);
+    public List<PurchaseRecord> getAllRecords() {
+        return purchaseRecordRepository.findAll();
     }
 
     @Override
-    public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) {
-        return purchaseRepo.findByCustomerId(customerId);
+    public PurchaseRecord getRecordById(Long id) {
+        return purchaseRecordRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<PurchaseRecord> getAllPurchases() {
-        return purchaseRepo.findAll();
-    }
-
-    @Override
-    public PurchaseRecord getPurchaseById(Long id) {
-        return purchaseRepo.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+    public PurchaseRecord saveRecord(PurchaseRecord record) {
+        return purchaseRecordRepository.save(record);
     }
 }
