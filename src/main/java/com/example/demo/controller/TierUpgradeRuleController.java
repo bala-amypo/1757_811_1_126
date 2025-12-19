@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.TierUpgradeRuleEntity;
+import com.example.demo.entity.TierUpgradeRuleEntity;
 import com.example.demo.service.TierUpgradeRuleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,25 +16,20 @@ public class TierUpgradeRuleController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<TierUpgradeRuleEntity> getAllRules() {
-        return service.getAllRules();
-    }
-
     @PostMapping
-    public TierUpgradeRuleEntity createRule(@RequestBody TierUpgradeRuleEntity rule) {
+    public TierUpgradeRuleEntity create(@RequestBody TierUpgradeRuleEntity rule) {
         return service.createRule(rule);
     }
 
     @PutMapping("/{id}")
-    public TierUpgradeRuleEntity updateRule(
+    public TierUpgradeRuleEntity update(
             @PathVariable Long id,
             @RequestBody TierUpgradeRuleEntity rule) {
         return service.updateRule(id, rule);
     }
 
     @GetMapping("/active")
-    public List<TierUpgradeRuleEntity> getActiveRules() {
+    public List<TierUpgradeRuleEntity> getActive() {
         return service.getActiveRules();
     }
 
@@ -43,5 +38,10 @@ public class TierUpgradeRuleController {
             @RequestParam String fromTier,
             @RequestParam String toTier) {
         return service.getRule(fromTier, toTier);
+    }
+
+    @GetMapping
+    public List<TierUpgradeRuleEntity> getAll() {
+        return service.getAllRules();
     }
 }

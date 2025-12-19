@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.CustomerProfileEntity;
-import com.example.demo.model.TierHistoryRecordEntity;
+import com.example.demo.entity.TierHistoryRecordEntity;
 import com.example.demo.service.TierUpgradeEngineService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,18 +17,19 @@ public class TierUpgradeEngineController {
     }
 
     @PostMapping("/evaluate/{customerId}")
-    public CustomerProfileEntity evaluate(@PathVariable Long customerId) {
+    public TierHistoryRecordEntity evaluate(
+            @PathVariable Long customerId) {
         return service.evaluateAndUpgradeTier(customerId);
     }
 
     @GetMapping("/history/{customerId}")
-    public List<TierHistoryRecordEntity> getHistoryByCustomer(
+    public List<TierHistoryRecordEntity> history(
             @PathVariable Long customerId) {
         return service.getHistoryByCustomer(customerId);
     }
 
     @GetMapping
-    public List<TierHistoryRecordEntity> getAllHistory() {
+    public List<TierHistoryRecordEntity> getAll() {
         return service.getAllHistory();
     }
 }
