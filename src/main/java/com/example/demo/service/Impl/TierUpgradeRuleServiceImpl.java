@@ -1,56 +1,38 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.TierUpgradeRule;
+import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.repository.TierUpgradeRuleRepository;
 import com.example.demo.service.TierUpgradeRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
+@Service
 public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
 
-    private final TierUpgradeRuleRepository ruleRepo;
+    private final TierUpgradeRuleRepository repository;
 
-    // REQUIRED constructor order
-    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository ruleRepo) {
-        this.ruleRepo = ruleRepo;
-    }
-
-    @Override
-    public TierUpgradeRule createRule(TierUpgradeRule rule) {
-        if (rule.getMinSpend() < 0 || rule.getMinVisits() < 0) {
-            throw new IllegalArgumentException("Minimum spend and visits must be non-negative");
-        }
-        return ruleRepo.save(rule);
-    }
-
-    @Override
-    public TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule) {
-        TierUpgradeRule existing = ruleRepo.findById(id)
-                .orElseThrow(NoSuchElementException::new);
-
-        existing.setFromTier(updatedRule.getFromTier());
-        existing.setToTier(updatedRule.getToTier());
-        existing.setMinSpend(updatedRule.getMinSpend());
-        existing.setMinVisits(updatedRule.getMinVisits());
-        existing.setActive(updatedRule.getActive());
-
-        return ruleRepo.save(existing);
-    }
-
-    @Override
-    public TierUpgradeRule getRule(String fromTier, String toTier) {
-        return ruleRepo.findByFromTierAndToTier(fromTier, toTier)
-                .orElseThrow(NoSuchElementException::new);
-    }
-
-    @Override
-    public List<TierUpgradeRule> getActiveRules() {
-        return ruleRepo.findByActiveTrue();
+    public TierUpgradeRuleServiceImpl(TierUpgradeRuleRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public List<TierUpgradeRule> getAllRules() {
-        return ruleRepo.findAll();
+        return repository.findAll();
+    }
+
+    @Override
+    public TierUpgradeRule getRuleById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public TierUpgradeRule createRule(TierUpgradeRule rule) {
+        return repository.save(rule);
+    }
+
+    @Override
+    public void deleteRule(Long id) {
+        repository.deleteById(id);
     }
 }

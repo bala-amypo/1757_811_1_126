@@ -1,17 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.model.TierUpgradeRule;
+import com.example.demo.entity.TierUpgradeRule;
 import java.util.List;
 
 public interface TierUpgradeRuleService {
 
+    List<TierUpgradeRule> getAllRules();
+
+    TierUpgradeRule getRuleById(Long id);
+
     TierUpgradeRule createRule(TierUpgradeRule rule);
 
-    TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule);
-
-    TierUpgradeRule getRule(String fromTier, String toTier);
-
-    List<TierUpgradeRule> getActiveRules();
-
-    List<TierUpgradeRule> getAllRules();
+    void deleteRule(Long id);
 }
