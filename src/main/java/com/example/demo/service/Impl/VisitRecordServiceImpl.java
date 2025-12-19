@@ -11,30 +11,33 @@ import java.util.NoSuchElementException;
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository repository;
+    private final VisitRecordRepository visitRecordRepository;
 
-    public VisitRecordServiceImpl(VisitRecordRepository repository) {
-        this.repository = repository;
+    public VisitRecordServiceImpl(VisitRecordRepository visitRecordRepository) {
+        this.visitRecordRepository = visitRecordRepository;
     }
 
     @Override
     public VisitRecord recordVisit(VisitRecord visit) {
-        return repository.save(visit);
-    }
-
-    @Override
-    public VisitRecord getVisitById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Visit not found"));
+        if (!visit.getChannel().matches("STORE|APP|WEB")) {
+            throw new IllegalArgumentException("Invalid channel");
+        }
+        return visitRecordRepository.save(visit);
     }
 
     @Override
     public List<VisitRecord> getVisitsByCustomer(Long customerId) {
-        return repository.findByCustomerId(customerId);
+        return visitRecordRepository.findByCustomerId(customerId);
     }
 
     @Override
     public List<VisitRecord> getAllVisits() {
-        return repository.findAll();
+        return visitRecordRepository.findAll();
+    }
+
+    @Override
+    public VisitRecord getVisitById(Long id) {
+        return visitRecordRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
     }
 }
