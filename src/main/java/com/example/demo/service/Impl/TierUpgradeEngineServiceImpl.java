@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.CustomerProfileEntity;
-import com.example.demo.entity.TierHistoryRecordEntity;
-import com.example.demo.entity.TierUpgradeRuleEntity;
+import com.example.demo.entity.CustomerProfile;
+import com.example.demo.entity.TierHistoryRecord;
+import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.repository.CustomerProfileRepository;
 import com.example.demo.repository.PurchaseRecordRepository;
 import com.example.demo.repository.TierHistoryRecordRepository;
