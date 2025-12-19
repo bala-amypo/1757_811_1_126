@@ -1,3 +1,5 @@
+package com.example.demo.service;
+
 import com.example.demo.entity.TierHistoryRecord;
 import java.util.List;
 
@@ -7,5 +9,5 @@ public interface TierUpgradeEngineService {
 
     List<TierHistoryRecord> getAllHistory();
 
-    List<TierHistoryRecord> getHistoryByCustomer(Long customerId); // ✅ ADD THIS
+    List<TierHistoryRecord> getHistoryByCustomer(Long customerId);
 }

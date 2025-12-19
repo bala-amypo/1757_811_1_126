@@ -1,15 +1,11 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.TierUpgradeRule;
+import com.example.demo.entity.TierHistoryRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
-import java.util.Optional;
 
-public interface TierUpgradeRuleRepository extends JpaRepository<TierUpgradeRule, Long> {
+public interface TierHistoryRecordRepository
+        extends JpaRepository<TierHistoryRecord, Long> {
 
-    Optional<TierUpgradeRule> findByFromTier(String fromTier);
-
-    Optional<TierUpgradeRule> findByFromTierAndToTier(String fromTier, String toTier); // ✅
-
-    List<TierUpgradeRule> findByActiveTrue(); // ✅
+    List<TierHistoryRecord> findByCustomerId(Long customerId);
 }
