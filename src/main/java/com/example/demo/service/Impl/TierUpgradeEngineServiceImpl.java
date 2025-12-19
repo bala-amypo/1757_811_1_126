@@ -46,12 +46,10 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Tier rule not found"));
 
-        // Upgrade tier
         String oldTier = customer.getCurrentTier();
         customer.setCurrentTier(rule.getToTier());
         customerRepository.save(customer);
 
-        // Save history
         TierHistoryRecord history = new TierHistoryRecord();
         history.setCustomer(customer);
         history.setFromTier(oldTier);
@@ -64,5 +62,11 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
     @Override
     public List<TierHistoryRecord> getAllHistory() {
         return historyRepository.findAll();
+    }
+
+    // ✅ THIS WAS MISSING — NOW FIXED
+    @Override
+    public List<TierHistoryRecord> getHistoryByCustomer(Long customerId) {
+        return historyRepository.findByCustomerId(customerId);
     }
 }
