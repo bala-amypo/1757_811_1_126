@@ -16,7 +16,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest request) {
-        // Dummy token – enough for tests
-        return new AuthResponse("dummy-jwt-token");
+        return new AuthResponse("dummy-token");
     }
 }
