@@ -18,7 +18,7 @@ public class VisitRecord {
     public VisitRecord() {
     }
 
-    public VisitRecordEntity(
+    public VisitRecord(
             Long customerId,
             LocalDate visitDate,
             String channel) {

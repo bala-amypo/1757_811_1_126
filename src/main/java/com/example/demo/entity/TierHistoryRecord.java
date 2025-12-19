@@ -13,9 +13,9 @@ public class TierHistoryRecord{
 
     private Long customerId;
 
-    private String fromTier;   // ⭐ REQUIRED
+    private String fromTier;  
 
-    private String toTier;     // ⭐ REQUIRED
+    private String toTier;    
 
     private LocalDateTime changedAt;
 
@@ -47,7 +47,7 @@ public class TierHistoryRecord{
         this.fromTier = fromTier;
     }
 
-    // ⭐ THIS WAS MISSING
+   
     public String getToTier() {
         return toTier;
     }
