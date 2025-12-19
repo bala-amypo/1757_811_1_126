@@ -1,47 +1,42 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.TierUpgradeRuleEntity;
+import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.service.TierUpgradeRuleService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tier-rules")
 public class TierUpgradeRuleController {
 
-    private final TierUpgradeRuleService service;
+    private final TierUpgradeRuleService tierUpgradeRuleService;
 
-    public TierUpgradeRuleController(TierUpgradeRuleService service) {
-        this.service = service;
+    public TierUpgradeRuleController(TierUpgradeRuleService tierUpgradeRuleService) {
+        this.tierUpgradeRuleService = tierUpgradeRuleService;
     }
 
     @PostMapping
-    public TierUpgradeRule create(@RequestBody TierUpgradeRule rule) {
-        return service.createRule(rule);
+    public TierUpgradeRule createRule(@RequestBody TierUpgradeRule rule) {
+        return tierUpgradeRuleService.createRule(rule);
     }
 
     @PutMapping("/{id}")
-    public TierUpgradeRule update(
-            @PathVariable Long id,
-            @RequestBody TierUpgradeRule rule) {
-        return service.updateRule(id, rule);
+    public TierUpgradeRule updateRule(@PathVariable Long id, @RequestBody TierUpgradeRule rule) {
+        return tierUpgradeRuleService.updateRule(id, rule);
     }
 
     @GetMapping("/active")
-    public List<TierUpgradeRule> getActive() {
-        return service.getActiveRules();
-    }
-
-    @GetMapping("/lookup")
-    public TierUpgradeRule getRule(
-            @RequestParam String fromTier,
-            @RequestParam String toTier) {
-        return service.getRule(fromTier, toTier);
+    public List<TierUpgradeRule> getActiveRules() {
+        return tierUpgradeRuleService.getActiveRules();
     }
 
     @GetMapping
-    public List<TierUpgradeRule> getAll() {
-        return service.getAllRules();
+    public List<TierUpgradeRule> getAllRules() {
+        return tierUpgradeRuleService.getAllRules();
+    }
+
+    @GetMapping("/lookup")
+    public TierUpgradeRule getRule(@RequestParam String fromTier, @RequestParam String toTier) {
+        return tierUpgradeRuleService.getRule(fromTier, toTier);
     }
 }
