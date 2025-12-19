@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TierHistoryRecordRepository
-        extends JpaRepository<TierHistoryRecordEntity, Long> {
+        extends JpaRepository<TierHistoryRecord, Long> {
 
-    List<TierHistoryRecordEntity> findByCustomerId(Long customerId);
+    List<TierHistoryRecord> findByCustomerId(Long customerId);
 
-    List<TierHistoryRecordEntity> findByChangedAtBetween(
+    List<TierHistoryRecord> findByChangedAtBetween(
             LocalDateTime start, LocalDateTime end);
 }

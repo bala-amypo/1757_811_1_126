@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Service   // ⭐ THIS WAS MISSING
+@Service   
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private final CustomerProfileRepository repository;
@@ -18,37 +18,37 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
-    public CustomerProfileEntity createCustomer(CustomerProfileEntity customer) {
+    public CustomerProfile createCustomer(CustomerProfile customer) {
         return repository.save(customer);
     }
 
     @Override
-    public CustomerProfileEntity getCustomerById(Long id) {
+    public CustomerProfile getCustomerById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override
-    public CustomerProfileEntity findByCustomerId(String customerId) {
+    public CustomerProfile findByCustomerId(String customerId) {
         return repository.findByCustomerId(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
     @Override
-    public List<CustomerProfileEntity> getAllCustomers() {
+    public List<CustomerProfile> getAllCustomers() {
         return repository.findAll();
     }
 
     @Override
-    public CustomerProfileEntity updateTier(Long id, String newTier) {
-        CustomerProfileEntity customer = getCustomerById(id);
+    public CustomerProfile updateTier(Long id, String newTier) {
+        CustomerProfile customer = getCustomerById(id);
         customer.setTier(newTier);
         return repository.save(customer);
     }
 
     @Override
-    public CustomerProfileEntity updateStatus(Long id, boolean active) {
-        CustomerProfileEntity customer = getCustomerById(id);
+    public CustomerProfile updateStatus(Long id, boolean active) {
+        CustomerProfile customer = getCustomerById(id);
         customer.setActive(active);
         return repository.save(customer);
     }

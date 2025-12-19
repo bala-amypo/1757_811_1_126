@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TierUpgradeRuleRepository
-        extends JpaRepository<TierUpgradeRuleEntity, Long> {
+        extends JpaRepository<TierUpgradeRule, Long> {
 
-    Optional<TierUpgradeRuleEntity> findByFromTierAndToTier(
+    Optional<TierUpgradeRule> findByFromTierAndToTier(
             String fromTier, String toTier);
 
-    List<TierUpgradeRuleEntity> findByActiveTrue();
+    List<TierUpgradeRule> findByActiveTrue();
 }

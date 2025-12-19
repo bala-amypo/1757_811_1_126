@@ -34,14 +34,14 @@ public class TierUpgradeRuleController {
     }
 
     @GetMapping("/lookup")
-    public TierUpgradeRuleE getRule(
+    public TierUpgradeRule getRule(
             @RequestParam String fromTier,
             @RequestParam String toTier) {
         return service.getRule(fromTier, toTier);
     }
 
     @GetMapping
-    public List<TierUpgradeRuleEntity> getAll() {
+    public List<TierUpgradeRule> getAll() {
         return service.getAllRules();
     }
 }

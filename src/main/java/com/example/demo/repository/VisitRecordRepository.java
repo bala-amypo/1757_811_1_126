@@ -7,10 +7,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface VisitRecordRepository
-        extends JpaRepository<VisitRecordEntity, Long> {
+        extends JpaRepository<VisitRecord, Long> {
 
-    List<VisitRecordEntity> findByCustomerId(Long customerId);
+    List<VisitRecord> findByCustomerId(Long customerId);
 
-    List<VisitRecordEntity> findByVisitDateBetween(
+    List<VisitRecord> findByVisitDateBetween(
             LocalDate start, LocalDate end);
 }

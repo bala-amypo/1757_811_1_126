@@ -7,10 +7,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PurchaseRecordRepository
-        extends JpaRepository<PurchaseRecordEntity, Long> {
+        extends JpaRepository<PurchaseRecord, Long> {
 
-    List<PurchaseRecordEntity> findByCustomerId(Long customerId);
+    List<PurchaseRecord> findByCustomerId(Long customerId);
 
-    List<PurchaseRecordEntity> findByPurchaseDateBetween(
+    List<PurchaseRecord> findByPurchaseDateBetween(
             LocalDate start, LocalDate end);
 }

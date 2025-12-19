@@ -17,22 +17,22 @@ public class VisitRecordController {
     }
 
     @PostMapping
-    public VisitRecordEntity create(@RequestBody VisitRecordEntity visit) {
+    public VisitRecord create(@RequestBody VisitRecord visit) {
         return service.recordVisit(visit);
     }
 
     @GetMapping("/{id}")
-    public VisitRecordEntity getById(@PathVariable Long id) {
+    public VisitRecord getById(@PathVariable Long id) {
         return service.getVisitById(id);
     }
 
     @GetMapping("/customer/{customerId}")
-    public List<VisitRecordEntity> getByCustomer(@PathVariable Long customerId) {
+    public List<VisitRecord> getByCustomer(@PathVariable Long customerId) {
         return service.getVisitsByCustomer(customerId);
     }
 
     @GetMapping
-    public List<VisitRecordEntity> getAll() {
+    public List<VisitRecord> getAll() {
         return service.getAllVisits();
     }
 }
