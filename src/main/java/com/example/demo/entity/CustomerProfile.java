@@ -1,31 +1,36 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "customer_profiles")
 public class CustomerProfile {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fullName;
+
+    private String name;
+
     private String email;
 
-    // Constructors
-    public CustomerProfile() {}
-    public CustomerProfile(Long id, String fullName, String email) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-    }
+    private String loyaltyTier; // Bronze, Silver, Gold, Platinum
 
-    // Getters and setters
+    private Double totalPurchaseAmount;
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getLoyaltyTier() { return loyaltyTier; }
+    public void setLoyaltyTier(String loyaltyTier) { this.loyaltyTier = loyaltyTier; }
+
+    public Double getTotalPurchaseAmount() { return totalPurchaseAmount; }
+    public void setTotalPurchaseAmount(Double totalPurchaseAmount) { this.totalPurchaseAmount = totalPurchaseAmount; }
 }

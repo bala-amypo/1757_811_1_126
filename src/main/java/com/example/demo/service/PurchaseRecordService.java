@@ -4,7 +4,10 @@ import com.example.demo.entity.PurchaseRecord;
 import java.util.List;
 
 public interface PurchaseRecordService {
-    List<PurchaseRecord> getAllRecords();
-    PurchaseRecord getRecordById(Long id);
-    PurchaseRecord saveRecord(PurchaseRecord record);
+
+    List<PurchaseRecord> getPurchasesByCustomer(Long customerId);
+
+    PurchaseRecord getPurchaseById(Long purchaseId);
+
+    List<PurchaseRecord> getAllPurchases();
 }
