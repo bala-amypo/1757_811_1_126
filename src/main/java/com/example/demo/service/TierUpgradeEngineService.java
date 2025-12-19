@@ -1,22 +1,10 @@
-package com.example.demo.controller;
+package com.example.demo.service;
 
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-@RestController
-@RequestMapping("/auth")
-public class AuthController {
+public interface TierUpgradeEngineService {
 
-    @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-        return "User registered successfully";
-    }
-
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
-        // Dummy token – enough for tests
-        return new AuthResponse("dummy-jwt-token");
-    }
+    // Simple methods without DTOs
+    String upgradeTier(Long customerId);
+    List<String> getTierHistory(Long customerId);
 }
