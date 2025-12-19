@@ -4,7 +4,7 @@ import com.example.demo.service.*;
 import com.example.demo.repository.*;
 import com.example.demo.model.*;
 import java.util.*;
-
+@Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private final CustomerProfileRepository repo;

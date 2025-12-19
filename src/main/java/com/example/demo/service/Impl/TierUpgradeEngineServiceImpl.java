@@ -4,7 +4,7 @@ import com.example.demo.service.*;
 import com.example.demo.repository.*;
 import com.example.demo.model.*;
 import java.util.*;
-
+@Service
 public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
 
     private final CustomerProfileRepository customerRepo;
