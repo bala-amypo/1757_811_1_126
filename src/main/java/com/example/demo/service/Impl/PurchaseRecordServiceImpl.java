@@ -1,46 +1,42 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.PurchaseRecord;
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.PurchaseRecord;
 import com.example.demo.repository.PurchaseRecordRepository;
 import com.example.demo.service.PurchaseRecordService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
-@Service
 public class PurchaseRecordServiceImpl implements PurchaseRecordService {
 
-    private final PurchaseRecordRepository repository;
+    private final PurchaseRecordRepository purchaseRepo;
 
-    public PurchaseRecordServiceImpl(PurchaseRecordRepository repository) {
-        this.repository = repository;
+    // REQUIRED constructor order
+    public PurchaseRecordServiceImpl(PurchaseRecordRepository purchaseRepo) {
+        this.purchaseRepo = purchaseRepo;
     }
 
     @Override
     public PurchaseRecord recordPurchase(PurchaseRecord purchase) {
-
-        if (purchase.getAmount() <= 0) {
-            throw new IllegalArgumentException("Amount must be positive");
+        if (purchase.getAmount() == null || purchase.getAmount() <= 0) {
+            throw new IllegalArgumentException("Purchase amount must be greater than zero");
         }
-
-        return repository.save(purchase);
-    }
-
-    @Override
-    public PurchaseRecord getPurchaseById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Purchase record not found"));
+        return purchaseRepo.save(purchase);
     }
 
     @Override
     public List<PurchaseRecord> getPurchasesByCustomer(Long customerId) {
-        return repository.findByCustomerId(customerId);
+        return purchaseRepo.findByCustomerId(customerId);
     }
 
     @Override
     public List<PurchaseRecord> getAllPurchases() {
-        return repository.findAll();
+        return purchaseRepo.findAll();
+    }
+
+    @Override
+    public PurchaseRecord getPurchaseById(Long id) {
+        return purchaseRepo.findById(id)
+                .orElseThrow(NoSuchElementException::new);
     }
 }

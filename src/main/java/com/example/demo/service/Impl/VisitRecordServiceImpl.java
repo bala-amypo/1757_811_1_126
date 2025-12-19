@@ -1,49 +1,44 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.VisitRecord;
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.VisitRecord;
 import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
-@Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository repository;
+    private final VisitRecordRepository visitRepo;
+    private static final Set<String> VALID_CHANNELS = Set.of("STORE", "APP", "WEB");
 
-    public VisitRecordServiceImpl(VisitRecordRepository repository) {
-        this.repository = repository;
+    // REQUIRED constructor order
+    public VisitRecordServiceImpl(VisitRecordRepository visitRepo) {
+        this.visitRepo = visitRepo;
     }
 
     @Override
     public VisitRecord recordVisit(VisitRecord visit) {
-
-        if (!visit.getChannel().equals("STORE") &&
-            !visit.getChannel().equals("APP") &&
-            !visit.getChannel().equals("WEB")) {
-
-            throw new IllegalArgumentException("Invalid channel");
+        if (!VALID_CHANNELS.contains(visit.getChannel())) {
+            throw new IllegalArgumentException("Invalid visit channel");
         }
-
-        return repository.save(visit);
-    }
-
-    @Override
-    public VisitRecord getVisitById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Visit record not found"));
+        return visitRepo.save(visit);
     }
 
     @Override
     public List<VisitRecord> getVisitsByCustomer(Long customerId) {
-        return repository.findByCustomerId(customerId);
+        return visitRepo.findByCustomerId(customerId);
     }
 
     @Override
     public List<VisitRecord> getAllVisits() {
-        return repository.findAll();
+        return visitRepo.findAll();
+    }
+
+    @Override
+    public VisitRecord getVisitById(Long id) {
+        return visitRepo.findById(id)
+                .orElseThrow(NoSuchElementException::new);
     }
 }

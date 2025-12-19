@@ -1,42 +1,44 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.model.CustomerProfile;
 import com.example.demo.service.CustomerProfileService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerProfileController {
 
-    private final CustomerProfileService customerProfileService;
+    private final CustomerProfileService service;
 
-    public CustomerProfileController(CustomerProfileService customerProfileService) {
-        this.customerProfileService = customerProfileService;
+    public CustomerProfileController(CustomerProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
-        return customerProfileService.createCustomer(customer);
+    public CustomerProfile create(@RequestBody CustomerProfile customer) {
+        return service.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfile getCustomer(@PathVariable Long id) {
-        return customerProfileService.getCustomerById(id);
+    public CustomerProfile getById(@PathVariable Long id) {
+        return service.getCustomerById(id);
     }
 
     @GetMapping
-    public List<CustomerProfile> getAllCustomers() {
-        return customerProfileService.getAllCustomers();
+    public List<CustomerProfile> getAll() {
+        return service.getAllCustomers();
     }
 
-    @PutMapping("/{id}/tier")
-    public CustomerProfile updateTier(@PathVariable Long id, @RequestParam String newTier) {
-        return customerProfileService.updateTier(id, newTier);
+    @PutMapping("/tier")
+    public CustomerProfile updateTier(@RequestParam Long id,
+                                      @RequestParam String tier) {
+        return service.updateTier(id, tier);
     }
 
     @GetMapping("/lookup/{customerId}")
-    public CustomerProfile getByCustomerId(@PathVariable String customerId) {
-        return customerProfileService.findByCustomerId(customerId);
+    public CustomerProfile lookup(@PathVariable String customerId) {
+        return service.findByCustomerId(customerId);
     }
 }
