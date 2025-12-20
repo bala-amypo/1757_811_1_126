@@ -10,3 +10,4 @@ import java.util.List;
 public interface VisitRecordRepository extends JpaRepository<VisitRecord, Long> {
     List<VisitRecord> findByCustomerId(Long customerId);
 }
+
