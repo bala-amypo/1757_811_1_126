@@ -35,7 +35,7 @@ public class CustomerProfile {
             this.currentTier = "BRONZE";
         }
     }
-
+    
     public CustomerProfile() {}
 
     public Long getId() { return id; }
