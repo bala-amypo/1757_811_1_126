@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "visit_records")
@@ -11,17 +12,10 @@ public class VisitRecord {
     private Long id;
 
     private Long customerId;
-    private String visitDate;
-    private String remarks;
+    private LocalDate visitDate;
+    private String channel;
 
     public VisitRecord() {}
-
-    public VisitRecord(Long customerId, String visitDate, String remarks) {
-        this.customerId = customerId;
-        this.visitDate = visitDate;
-        this.remarks = remarks;
-    }
-
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -29,9 +23,9 @@ public class VisitRecord {
     public Long getCustomerId() { return customerId; }
     public void setCustomerId(Long customerId) { this.customerId = customerId; }
 
-    public String getVisitDate() { return visitDate; }
-    public void setVisitDate(String visitDate) { this.visitDate = visitDate; }
+    public LocalDate getVisitDate() { return visitDate; }
+    public void setVisitDate(LocalDate visitDate) { this.visitDate = visitDate; }
 
-    public String getRemarks() { return remarks; }
-    public void setRemarks(String remarks) { this.remarks = remarks; }
+    public String getChannel() { return channel; }
+    public void setChannel(String channel) { this.channel = channel; }
 }
