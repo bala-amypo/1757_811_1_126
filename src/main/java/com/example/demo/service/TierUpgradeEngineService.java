@@ -1,10 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.*;
 import java.util.List;
-
 public interface TierUpgradeEngineService {
-
-    // Simple methods without DTOs
-    String upgradeTier(Long customerId);
-    List<String> getTierHistory(Long customerId);
+    TierHistoryRecord evaluateAndUpgradeTier(Long customerId);
+    List<TierHistoryRecord> getHistoryByCustomer(Long customerId);
 }

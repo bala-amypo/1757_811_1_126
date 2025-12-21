@@ -1,23 +1,22 @@
 package com.example.demo.exception;
 
 import org.springframework.web.bind.annotation.*;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
-    public String handleNotFound() {
-        return "Requested resource not found";
+    public Map<String, String> handleNotFound(NoSuchElementException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public String handleValidation(IllegalArgumentException ex) {
-        return ex.getMessage();
-    }
-
-    @ExceptionHandler(Exception.class)
-    public String handleGeneric(Exception ex) {
-        return "Internal error: " + ex.getMessage();
+    public Map<String, String> handleBadRequest(IllegalArgumentException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
     }
 }

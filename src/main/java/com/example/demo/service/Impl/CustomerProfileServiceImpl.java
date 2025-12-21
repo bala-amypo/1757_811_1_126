@@ -1,30 +1,44 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.CustomerProfile;
-import com.example.demo.service.CustomerProfileService;
+import com.example.demo.entity.*;
+import com.example.demo.repository.*;
+import com.example.demo.service.*;
+import java.util.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Service  
+@Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
-    private List<CustomerProfile> customers = new ArrayList<>();
+    private final CustomerProfileRepository repo;
 
-    @Override
+    public CustomerProfileServiceImpl(CustomerProfileRepository repo) {
+        this.repo = repo;
+    }
+
+    public CustomerProfile createCustomer(CustomerProfile customer) {
+        if (repo.findByCustomerId(customer.getCustomerId()).isPresent()) {
+            throw new IllegalArgumentException("Customer ID already exists");
+        }
+        return repo.save(customer);
+    }
+
     public CustomerProfile getCustomerById(Long id) {
-        return customers.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
+        return repo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
-    @Override
+    public CustomerProfile findByCustomerId(String customerId) {
+        return repo.findByCustomerId(customerId)
+                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    }
+
     public List<CustomerProfile> getAllCustomers() {
-        return customers;
+        return repo.findAll();
     }
 
-    @Override
-    public CustomerProfile saveCustomer(CustomerProfile customer) {
-        customers.add(customer);
-        return customer;
+    public CustomerProfile updateTier(Long id, String newTier) {
+        CustomerProfile c = getCustomerById(id);
+        c.setCurrentTier(newTier);
+        return repo.save(c);
     }
 }
