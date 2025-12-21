@@ -14,11 +14,11 @@ public class CustomerProfile {
 
     private String email;
 
-    private String loyaltyTier; // Bronze, Silver, Gold, Platinum
+    private String loyaltyTier; 
 
     private Double totalPurchaseAmount;
 
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
