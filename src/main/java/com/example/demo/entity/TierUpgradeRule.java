@@ -3,8 +3,10 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tier_upgrade_rules",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"fromTier", "toTier"}))
+@Table(
+    name = "tier_upgrade_rules",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"fromTier", "toTier"})
+)
 public class TierUpgradeRule {
 
     @Id
@@ -15,10 +17,9 @@ public class TierUpgradeRule {
     private String toTier;
     private Double minSpend;
     private Integer minVisits;
-    private Boolean active = true;
+    private Boolean active;
 
-    public TierUpgradeRule() {}
-
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
