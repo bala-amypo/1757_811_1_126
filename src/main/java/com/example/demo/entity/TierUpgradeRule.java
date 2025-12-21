@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(
     name = "tier_upgrade_rules",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"fromTier", "toTier"})
+    uniqueConstraints = @UniqueConstraint(columnNames = {"from_tier", "to_tier"})
 )
 public class TierUpgradeRule {
 
@@ -13,10 +13,19 @@ public class TierUpgradeRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "from_tier")
     private String fromTier;
+
+    @Column(name = "to_tier")
     private String toTier;
+
+    @Column(name = "min_spend")
     private Double minSpend;
+
+    // 🔑 FIX: map to existing DB column
+    @Column(name = "min_points")
     private Integer minVisits;
+
     private Boolean active;
 
     // Getters and Setters
