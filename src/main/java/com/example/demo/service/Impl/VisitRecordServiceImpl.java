@@ -3,38 +3,43 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.VisitRecord;
 import com.example.demo.repository.VisitRecordRepository;
 import com.example.demo.service.VisitRecordService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository repository;
+    private final VisitRecordRepository visitRecordRepository;
+    private static final Set<String> VALID_CHANNELS = Set.of("STORE", "APP", "WEB");
 
-    @Autowired
-    public VisitRecordServiceImpl(VisitRecordRepository repository) {
-        this.repository = repository;
+    public VisitRecordServiceImpl(VisitRecordRepository visitRecordRepository) {
+        this.visitRecordRepository = visitRecordRepository;
     }
 
     @Override
-    public VisitRecord saveVisit(VisitRecord visitRecord) {
-        return repository.save(visitRecord);
-    }
-
-    @Override
-    public VisitRecord getVisitById(Long id) {
-        return repository.findById(id).orElse(null);
+    public VisitRecord recordVisit(VisitRecord visit) {
+        if (!VALID_CHANNELS.contains(visit.getChannel())) {
+            throw new IllegalArgumentException("Invalid channel");
+        }
+        return visitRecordRepository.save(visit);
     }
 
     @Override
     public List<VisitRecord> getVisitsByCustomer(Long customerId) {
-        return repository.findByCustomerId(customerId);
+        return visitRecordRepository.findByCustomerId(customerId);
     }
 
     @Override
     public List<VisitRecord> getAllVisits() {
-        return repository.findAll();
+        return visitRecordRepository.findAll();
+    }
+
+    @Override
+    public VisitRecord getVisitById(Long id) {
+        return visitRecordRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
     }
 }

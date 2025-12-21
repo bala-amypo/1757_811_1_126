@@ -2,39 +2,37 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.VisitRecord;
 import com.example.demo.service.VisitRecordService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/visit")
+@RequestMapping("/api/visits")
 public class VisitRecordController {
 
-    private final VisitRecordService service;
+    private final VisitRecordService visitRecordService;
 
-    @Autowired
-    public VisitRecordController(VisitRecordService service) {
-        this.service = service;
+    public VisitRecordController(VisitRecordService visitRecordService) {
+        this.visitRecordService = visitRecordService;
     }
 
-    @PostMapping("/add")
-    public VisitRecord addVisit(@RequestBody VisitRecord visit) {
-        return service.saveVisit(visit);
-    }
-
-    @GetMapping("/{id}")
-    public VisitRecord getVisit(@PathVariable Long id) {
-        return service.getVisitById(id);
+    @PostMapping
+    public VisitRecord recordVisit(@RequestBody VisitRecord visit) {
+        return visitRecordService.recordVisit(visit);
     }
 
     @GetMapping("/customer/{customerId}")
     public List<VisitRecord> getVisitsByCustomer(@PathVariable Long customerId) {
-        return service.getVisitsByCustomer(customerId);
+        return visitRecordService.getVisitsByCustomer(customerId);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/{id}")
+    public VisitRecord getVisitById(@PathVariable Long id) {
+        return visitRecordService.getVisitById(id);
+    }
+
+    @GetMapping
     public List<VisitRecord> getAllVisits() {
-        return service.getAllVisits();
+        return visitRecordService.getAllVisits();
     }
 }

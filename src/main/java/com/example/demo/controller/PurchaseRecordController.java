@@ -10,24 +10,29 @@ import java.util.List;
 @RequestMapping("/api/purchases")
 public class PurchaseRecordController {
 
-    private final PurchaseRecordService service;
+    private final PurchaseRecordService purchaseRecordService;
 
-    public PurchaseRecordController(PurchaseRecordService service) {
-        this.service = service;
+    public PurchaseRecordController(PurchaseRecordService purchaseRecordService) {
+        this.purchaseRecordService = purchaseRecordService;
     }
 
-    @GetMapping("/customer/{id}")
-    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long id) {
-        return service.getPurchasesByCustomer(id);
+    @PostMapping
+    public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
+        return purchaseRecordService.recordPurchase(purchase);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
+        return purchaseRecordService.getPurchasesByCustomer(customerId);
     }
 
     @GetMapping("/{id}")
     public PurchaseRecord getPurchaseById(@PathVariable Long id) {
-        return service.getPurchaseById(id);
+        return purchaseRecordService.getPurchaseById(id);
     }
 
     @GetMapping
     public List<PurchaseRecord> getAllPurchases() {
-        return service.getAllPurchases();
+        return purchaseRecordService.getAllPurchases();
     }
 }
