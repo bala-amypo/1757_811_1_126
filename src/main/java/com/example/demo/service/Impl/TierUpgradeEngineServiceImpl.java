@@ -36,13 +36,13 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
 
         double totalSpend = purchaseRepo.findByCustomerId(customerId)
-                .stream().mapToDouble(PurchaseRecord::getAmount).sum();
+                .stream()
+                .mapToDouble(PurchaseRecord::getAmount)
+                .sum();
 
         int totalVisits = visitRepo.findByCustomerId(customerId).size();
 
-        List<TierUpgradeRule> rules = ruleRepo.findByActiveTrue();
-
-        for (TierUpgradeRule rule : rules) {
+        for (TierUpgradeRule rule : ruleRepo.findByActiveTrue()) {
             if (rule.getFromTier().equals(customer.getCurrentTier())
                     && totalSpend >= rule.getMinSpend()
                     && totalVisits >= rule.getMinVisits()) {

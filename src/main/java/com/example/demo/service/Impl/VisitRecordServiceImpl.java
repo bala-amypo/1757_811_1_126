@@ -12,34 +12,36 @@ import java.util.Set;
 @Service
 public class VisitRecordServiceImpl implements VisitRecordService {
 
-    private final VisitRecordRepository visitRecordRepository;
-    private static final Set<String> VALID_CHANNELS = Set.of("STORE", "APP", "WEB");
+    private final VisitRecordRepository repository;
+    private static final Set<String> VALID_CHANNELS =
+            Set.of("STORE", "APP", "WEB");
 
-    public VisitRecordServiceImpl(VisitRecordRepository visitRecordRepository) {
-        this.visitRecordRepository = visitRecordRepository;
+    public VisitRecordServiceImpl(VisitRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public VisitRecord recordVisit(VisitRecord visit) {
-        if (!VALID_CHANNELS.contains(visit.getChannel())) {
+        if (visit.getChannel() == null ||
+                !VALID_CHANNELS.contains(visit.getChannel())) {
             throw new IllegalArgumentException("Invalid channel");
         }
-        return visitRecordRepository.save(visit);
+        return repository.save(visit);
     }
 
     @Override
     public List<VisitRecord> getVisitsByCustomer(Long customerId) {
-        return visitRecordRepository.findByCustomerId(customerId);
+        return repository.findByCustomerId(customerId);
     }
 
     @Override
     public List<VisitRecord> getAllVisits() {
-        return visitRecordRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public VisitRecord getVisitById(Long id) {
-        return visitRecordRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Visit record not found"));
     }
 }
