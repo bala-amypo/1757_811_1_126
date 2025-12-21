@@ -24,7 +24,7 @@ public class CustomerProfileController {
 
     @PostMapping
     public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
-        customer.setId(null); // important
+        customer.setId(null); 
         return customerProfileService.createCustomer(customer);
     }
 

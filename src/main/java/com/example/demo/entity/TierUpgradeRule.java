@@ -22,13 +22,11 @@ public class TierUpgradeRule {
     @Column(name = "min_spend")
     private Double minSpend;
 
-    // 🔑 FIX: map to existing DB column
     @Column(name = "min_points")
     private Integer minVisits;
 
     private Boolean active;
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

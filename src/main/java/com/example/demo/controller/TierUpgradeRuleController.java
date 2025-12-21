@@ -19,7 +19,7 @@ public class TierUpgradeRuleController {
 
     @PostMapping
     public TierUpgradeRule createRule(@RequestBody TierUpgradeRule rule) {
-        rule.setId(null); // prevent Swagger issues
+        rule.setId(null); 
         return tierUpgradeRuleService.createRule(rule);
     }
 
