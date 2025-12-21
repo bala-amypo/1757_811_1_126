@@ -1,11 +1,3 @@
-package com.example.demo.controller;
-
-import com.example.demo.entity.CustomerProfile;
-import com.example.demo.service.CustomerProfileService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerProfileController {
@@ -18,11 +10,12 @@ public class CustomerProfileController {
 
     @PostMapping
     public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
+        customer.setId(null); // ✅ ONLY this line is needed
         return customerProfileService.createCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerProfile getCustomerById(@PathVariable Long id) {
+    public CustomerProfile getCustomer(@PathVariable Long id) {
         return customerProfileService.getCustomerById(id);
     }
 
@@ -30,23 +23,4 @@ public class CustomerProfileController {
     public List<CustomerProfile> getAllCustomers() {
         return customerProfileService.getAllCustomers();
     }
-
-    @PutMapping("/{id}/tier")
-    public CustomerProfile updateTier(
-            @PathVariable Long id,
-            @RequestParam String newTier) {
-        return customerProfileService.updateTier(id, newTier);
-    }
-
-    @GetMapping("/lookup/{customerId}")
-    public CustomerProfile findByCustomerId(@PathVariable String customerId) {
-        return customerProfileService.findByCustomerId(customerId);
-    }
-    @PostMapping
-public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
-    customer.setId(null);          // 🔑 force Hibernate to auto-generate
-    customer.setCreatedAt(null);   // 🔑 let @PrePersist handle it
-    return customerProfileService.createCustomer(customer);
-}
-
 }
