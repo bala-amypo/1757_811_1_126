@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.TierUpgradeRule;
 import com.example.demo.service.TierUpgradeRuleService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class TierUpgradeRuleController {
 
     @PostMapping
     public TierUpgradeRule createRule(@RequestBody TierUpgradeRule rule) {
+        rule.setId(null); // prevent Swagger issues
         return tierUpgradeRuleService.createRule(rule);
     }
 
@@ -28,14 +30,14 @@ public class TierUpgradeRuleController {
         return tierUpgradeRuleService.updateRule(id, rule);
     }
 
-    @GetMapping("/active")
-    public List<TierUpgradeRule> getActiveRules() {
-        return tierUpgradeRuleService.getActiveRules();
-    }
-
     @GetMapping
     public List<TierUpgradeRule> getAllRules() {
         return tierUpgradeRuleService.getAllRules();
+    }
+
+    @GetMapping("/active")
+    public List<TierUpgradeRule> getActiveRules() {
+        return tierUpgradeRuleService.getActiveRules();
     }
 
     @GetMapping("/lookup")
