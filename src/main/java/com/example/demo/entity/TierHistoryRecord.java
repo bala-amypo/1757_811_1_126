@@ -22,7 +22,7 @@ public class TierHistoryRecord {
         this.changedAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
+
     public Long getId() { return id; }
     public Long getCustomerId() { return customerId; }
     public void setCustomerId(Long customerId) { this.customerId = customerId; }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service  // <-- This annotation is critical
+@Service  
 public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     private List<CustomerProfile> customers = new ArrayList<>();

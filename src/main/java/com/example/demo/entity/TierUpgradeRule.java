@@ -14,7 +14,6 @@ public class TierUpgradeRule {
     private int minPoints;
     private String tier;
 
-    // Constructors
     public TierUpgradeRule() {}
 
     public TierUpgradeRule(String ruleName, int minPoints, String tier) {
@@ -23,7 +22,7 @@ public class TierUpgradeRule {
         this.tier = tier;
     }
 
-    // Getters and Setters
+ 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
