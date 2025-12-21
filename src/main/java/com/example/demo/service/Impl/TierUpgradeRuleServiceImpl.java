@@ -55,4 +55,19 @@ public class TierUpgradeRuleServiceImpl implements TierUpgradeRuleService {
     public List<TierUpgradeRule> getAllRules() {
         return repository.findAll();
     }
+    @Override
+public TierUpgradeRule createRule(TierUpgradeRule rule) {
+    if (rule.getMinSpend() == null || rule.getMinSpend() < 0 ||
+        rule.getMinVisits() == null || rule.getMinVisits() < 0) {
+        throw new IllegalArgumentException("Invalid rule values");
+    }
+
+    if (repository.findByFromTierAndToTier(
+            rule.getFromTier(), rule.getToTier()).isPresent()) {
+        throw new IllegalArgumentException("Rule already exists");
+    }
+
+    return repository.save(rule);
+}
+
 }
