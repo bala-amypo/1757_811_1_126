@@ -35,10 +35,7 @@ public class TierUpgradeEngineServiceImpl implements TierUpgradeEngineService {
         CustomerProfile customer = customerRepo.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
 
-        double totalSpend = purchaseRepo.findByCustomerId(customerId)
-                .stream()
-                .mapToDouble(PurchaseRecord::getAmount)
-                .sum();
+        double totalSpend = purchaseRepo.findByCustomerId(customerId).stream().mapToDouble(PurchaseRecord::getAmount).sum();
 
         int totalVisits = visitRepo.findByCustomerId(customerId).size();
 
