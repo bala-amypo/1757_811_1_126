@@ -42,4 +42,11 @@ public class CustomerProfileController {
     public CustomerProfile findByCustomerId(@PathVariable String customerId) {
         return customerProfileService.findByCustomerId(customerId);
     }
+    @PostMapping
+public CustomerProfile createCustomer(@RequestBody CustomerProfile customer) {
+    customer.setId(null);          // 🔑 force Hibernate to auto-generate
+    customer.setCreatedAt(null);   // 🔑 let @PrePersist handle it
+    return customerProfileService.createCustomer(customer);
+}
+
 }
