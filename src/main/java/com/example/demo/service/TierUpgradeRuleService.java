@@ -8,11 +8,10 @@ public interface TierUpgradeRuleService {
 
     TierUpgradeRule createRule(TierUpgradeRule rule);
 
-    TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule);
-
-    TierUpgradeRule getRule(String fromTier, String toTier);
+    List<TierUpgradeRule> getAllRules();
 
     List<TierUpgradeRule> getActiveRules();
 
-    List<TierUpgradeRule> getAllRules();
+
+    TierUpgradeRule updateRule(Long id, TierUpgradeRule updatedRule);
 }

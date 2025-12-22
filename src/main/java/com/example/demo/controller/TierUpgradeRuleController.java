@@ -19,15 +19,8 @@ public class TierUpgradeRuleController {
 
     @PostMapping
     public TierUpgradeRule createRule(@RequestBody TierUpgradeRule rule) {
-        rule.setId(null); 
+        rule.setId(null);
         return tierUpgradeRuleService.createRule(rule);
-    }
-
-    @PutMapping("/{id}")
-    public TierUpgradeRule updateRule(
-            @PathVariable Long id,
-            @RequestBody TierUpgradeRule rule) {
-        return tierUpgradeRuleService.updateRule(id, rule);
     }
 
     @GetMapping
@@ -40,10 +33,12 @@ public class TierUpgradeRuleController {
         return tierUpgradeRuleService.getActiveRules();
     }
 
-    @GetMapping("/lookup")
-    public TierUpgradeRule getRule(
-            @RequestParam String fromTier,
-            @RequestParam String toTier) {
-        return tierUpgradeRuleService.getRule(fromTier, toTier);
+  
+    @PutMapping("/{id}")
+    public TierUpgradeRule updateRule(
+            @PathVariable Long id,
+            @RequestBody TierUpgradeRule updatedRule) {
+
+        return tierUpgradeRuleService.updateRule(id, updatedRule);
     }
 }
