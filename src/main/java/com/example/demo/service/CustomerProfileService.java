@@ -9,6 +9,9 @@ public interface CustomerProfileService {
 
     CustomerProfile getCustomerById(Long id);
 
+   
+    CustomerProfile findByCustomerId(String customerId);
+
     List<CustomerProfile> getAllCustomers();
 
     CustomerProfile updateTier(Long id, String newTier);
