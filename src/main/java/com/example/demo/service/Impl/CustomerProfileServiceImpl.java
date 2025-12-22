@@ -60,4 +60,13 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         customer.setActive(active);
         return repository.save(customer);
     }
+     @Override
+    public CustomerProfile updateTier(Long id, String newTier) {
+
+        CustomerProfile customer = customerProfileRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Customer not found"));
+
+        customer.setCurrentTier(newTier);
+        return customerProfileRepository.save(customer);
+    }
 }

@@ -16,4 +16,6 @@ public interface CustomerProfileService {
     CustomerProfile updateTier(Long id, String newTier);
 
     CustomerProfile updateStatus(Long id, boolean active);
+    
+     CustomerProfile updateTier(Long id, String newTier);
 }

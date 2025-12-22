@@ -38,4 +38,11 @@ public class CustomerProfileController {
         return customerProfileService.getAllCustomers();
     }
     
+ @PutMapping("/{id}/tier")
+    public CustomerProfile updateCustomerTier(
+            @PathVariable Long id,
+            @RequestParam String newTier) {
+
+        return customerProfileService.updateTier(id, newTier);
+    }
 }
