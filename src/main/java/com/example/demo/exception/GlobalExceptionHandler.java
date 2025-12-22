@@ -1,30 +1,38 @@
 package com.example.demo.exception;
 
-import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  
     @ExceptionHandler(NoSuchElementException.class)
-    public Map<String, String> handleNotFound(NoSuchElementException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
-        return error;
+    public ResponseEntity<Map<String, String>> handleNotFound(NoSuchElementException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public Map<String, String> handleBadRequest(IllegalArgumentException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
-        return error;
+    public ResponseEntity<Map<String, String>> handleBadRequest(IllegalArgumentException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+ 
     @ExceptionHandler(Exception.class)
-    public Map<String, String> handleAll(Exception ex) {
-    Map<String, String> error = new HashMap<>();
-    error.put("error", ex.getMessage());
-    return error;
-}
+    public ResponseEntity<Map<String, String>> handleAll(Exception ex) {
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
 
+    private ResponseEntity<Map<String, String>> buildResponse(HttpStatus status, String message) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", message);
+        return new ResponseEntity<>(error, status);
+    }
 }
