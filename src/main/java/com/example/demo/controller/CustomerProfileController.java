@@ -37,4 +37,5 @@ public class CustomerProfileController {
     public List<CustomerProfile> getAllCustomers() {
         return customerProfileService.getAllCustomers();
     }
+    
 }
