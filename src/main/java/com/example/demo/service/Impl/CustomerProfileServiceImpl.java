@@ -29,7 +29,6 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
 
-
     @Override
     public CustomerProfile findByCustomerId(String customerId) {
         return customerProfileRepository.findByCustomerId(customerId)
