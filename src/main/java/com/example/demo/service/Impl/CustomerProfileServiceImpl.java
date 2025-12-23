@@ -35,7 +35,7 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
         return customerProfileRepository.findByCustomerId(customerId)
                 .orElseThrow(() -> new NoSuchElementException("Customer not found"));
     }
-@Trasact
+    
     @Override
     public List<CustomerProfile> getAllCustomers() {
         return customerProfileRepository.findAll();
