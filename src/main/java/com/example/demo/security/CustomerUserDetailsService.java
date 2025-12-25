@@ -3,10 +3,7 @@ package com.example.demo.security;
 import com.example.demo.entity.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -26,14 +23,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         CustomerProfile customer = repository.findByEmail(email)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with email: " + email));
+                        new UsernameNotFoundException("User not found: " + email));
 
         return new User(
                 customer.getEmail(),
                 customer.getPassword(),
-                Collections.singleton(
-                        new SimpleGrantedAuthority("ROLE_USER")
-                )
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
 }
