@@ -1,38 +1,30 @@
 package com.example.demo.exception;
 
+import com.example.demo.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
- 
+    
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Map<String, String>> handleNotFound(NoSuchElementException ex) {
-        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    public ResponseEntity<ApiResponse> handleNoSuchElement(NoSuchElementException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse(false, ex.getMessage(), null));
     }
-
+    
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> handleBadRequest(IllegalArgumentException ex) {
-        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    public ResponseEntity<ApiResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponse(false, ex.getMessage(), null));
     }
-
+    
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleAll(Exception ex) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
-    }
-
-
-    private ResponseEntity<Map<String, String>> buildResponse(HttpStatus status, String message) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", message);
-        error.put("status", status.toString());
-        return new ResponseEntity<>(error, status);
+    public ResponseEntity<ApiResponse> handleGenericException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponse(false, "An error occurred: " + ex.getMessage(), null));
     }
 }
