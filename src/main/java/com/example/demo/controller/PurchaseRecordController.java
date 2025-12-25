@@ -1,38 +1,49 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.PurchaseRecord;
+import com.example.demo.model.PurchaseRecord;
 import com.example.demo.service.PurchaseRecordService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/purchases")
+@Tag(name = "Purchase Records")
+@SecurityRequirement(name = "bearerAuth")
 public class PurchaseRecordController {
-
+    
     private final PurchaseRecordService purchaseRecordService;
-
+    
     public PurchaseRecordController(PurchaseRecordService purchaseRecordService) {
         this.purchaseRecordService = purchaseRecordService;
     }
-
+    
     @PostMapping
-    public PurchaseRecord recordPurchase(@RequestBody PurchaseRecord purchase) {
-        return purchaseRecordService.recordPurchase(purchase);
+    @Operation(summary = "Record purchase")
+    public ResponseEntity<PurchaseRecord> recordPurchase(@RequestBody PurchaseRecord purchase) {
+        return ResponseEntity.ok(purchaseRecordService.recordPurchase(purchase));
     }
-
+    
     @GetMapping("/customer/{customerId}")
-    public List<PurchaseRecord> getPurchasesByCustomer(@PathVariable Long customerId) {
-        return purchaseRecordService.getPurchasesByCustomer(customerId);
+    @Operation(summary = "Get purchases by customer")
+    public ResponseEntity<List<PurchaseRecord>> getPurchasesByCustomer(@PathVariable Long customerId) {
+        return ResponseEntity.ok(purchaseRecordService.getPurchasesByCustomer(customerId));
     }
-
+    
     @GetMapping("/{id}")
-    public PurchaseRecord getPurchaseById(@PathVariable Long id) {
-        return purchaseRecordService.getPurchaseById(id);
+    @Operation(summary = "Get purchase by ID")
+    public ResponseEntity<PurchaseRecord> getPurchaseById(@PathVariable Long id) {
+        Optional<PurchaseRecord> purchase = purchaseRecordService.getPurchaseById(id);
+        return purchase.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    
     @GetMapping
-    public List<PurchaseRecord> getAllPurchases() {
-        return purchaseRecordService.getAllPurchases();
+    @Operation(summary = "Get all purchases")
+    public ResponseEntity<List<PurchaseRecord>> getAllPurchases() {
+        return ResponseEntity.ok(purchaseRecordService.getAllPurchases());
     }
 }
