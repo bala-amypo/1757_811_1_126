@@ -1,30 +1,35 @@
 package com.example.demo.security;
 
-import com.example.demo.entity.CustomerProfile;
+import com.example.demo.model.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import java.util.Collections;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
-    private final CustomerProfileRepository repository;
-
-    public CustomUserDetailsService(CustomerProfileRepository repository) {
-        this.repository = repository;
+    
+    private final CustomerProfileRepository customerProfileRepository;
+    
+    public CustomUserDetailsService(CustomerProfileRepository customerProfileRepository) {
+        this.customerProfileRepository = customerProfileRepository;
     }
-
+    
     @Override
-    public UserDetails loadUserByUsername(String customerId)
-            throws UsernameNotFoundException {
-
-        CustomerProfile customer = repository
-                .findByCustomerId(customerId)
-                .orElseThrow(() -> new UsernameNotFoundException("Customer not found"));
-
-        return User.withUsername(customer.getCustomerId())
-                .password("{noop}password")
-                .roles("USER")
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        CustomerProfile customer = customerProfileRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        
+        String role = customer.getRole() != null ? customer.getRole() : "ROLE_CUSTOMER";
+        
+        return User.builder()
+                .username(customer.getEmail())
+                .password(customer.getPassword())
+                .authorities(Collections.singletonList(new SimpleGrantedAuthority(role)))
                 .build();
     }
 }
