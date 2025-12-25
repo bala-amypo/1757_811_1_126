@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-public class SwaggerConfig {
+public class OpenApiConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
@@ -21,7 +21,7 @@ public class SwaggerConfig {
                         .version("1.0")
                         .description("API for managing customer loyalty tiers"))
                 .servers(List.of(
-                        new Server().url("https://9322.pro604cr.amypo.ai/")
+                        new Server().url("https://9140.32procr.amypo.ai/")
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
