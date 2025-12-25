@@ -2,11 +2,8 @@ package com.example.demo.security;
 
 import com.example.demo.entity.CustomerProfile;
 import com.example.demo.repository.CustomerProfileRepository;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -18,17 +15,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(String customerId)
             throws UsernameNotFoundException {
 
-        CustomerProfile customer = repository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found: " + email));
+        CustomerProfile customer = repository
+                .findByCustomerId(customerId)
+                .orElseThrow(() -> new UsernameNotFoundException("Customer not found"));
 
-        return new User(
-                customer.getEmail(),
-                customer.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
-        );
+        return User.withUsername(customer.getCustomerId())
+                .password("{noop}password")
+                .roles("USER")
+                .build();
     }
 }

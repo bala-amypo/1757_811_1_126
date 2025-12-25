@@ -4,21 +4,19 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-    name = "customer_profiles",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "customer_id"),
-        @UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "phone")
-    }
-)
+@Table(name = "customer_profile",
+       uniqueConstraints = {
+           @UniqueConstraint(columnNames = "customerId"),
+           @UniqueConstraint(columnNames = "email"),
+           @UniqueConstraint(columnNames = "phone")
+       })
 public class CustomerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "customer_id", nullable = false, unique = true)
+    @Column(nullable = false)
     private String customerId;
 
     private String fullName;
@@ -29,11 +27,9 @@ public class CustomerProfile {
 
     private String currentTier;
 
-    private boolean active;
+    private boolean active = true;
 
     private LocalDateTime createdAt;
-
-    private String password;
 
     @PrePersist
     public void onCreate() {
@@ -66,7 +62,4 @@ public class CustomerProfile {
     public void setActive(boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
 }
