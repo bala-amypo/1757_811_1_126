@@ -6,10 +6,9 @@ public class ApiResponse {
     private String message;
     private Object data;
 
-    // ✅ REQUIRED no-arg constructor
     public ApiResponse() {}
 
-    // ✅ REQUIRED 3-arg constructor
+
     public ApiResponse(boolean success, String message, Object data) {
         this.success = success;
         this.message = message;
