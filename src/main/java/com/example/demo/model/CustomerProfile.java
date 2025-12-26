@@ -51,7 +51,7 @@ public class CustomerProfile {
         }
     }
     
-    // Constructors
+
     public CustomerProfile() {}
     
     public CustomerProfile(String customerId, String fullName, String email, String phone, 
@@ -64,8 +64,7 @@ public class CustomerProfile {
         this.active = active;
         this.createdAt = createdAt;
     }
-    
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
