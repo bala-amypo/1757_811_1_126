@@ -86,7 +86,7 @@ public class CustomerProfile {
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
     
-    // Boolean getter should be isActive() for test compatibility
+
     public Boolean isActive() { return active; }
     
     public LocalDateTime getCreatedAt() { return createdAt; }
