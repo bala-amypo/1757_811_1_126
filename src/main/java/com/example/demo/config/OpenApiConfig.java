@@ -20,7 +20,7 @@ public class OpenApiConfig {
                         .title("Customer Loyalty Tier Upgrader API")
                         .version("1.0")
                         .description("API for managing customer loyalty tiers"))
-                .servers(List.of(
+                        .servers(List.of(
                         new Server().url("https://9322.pro604cr.amypo.ai/")
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
