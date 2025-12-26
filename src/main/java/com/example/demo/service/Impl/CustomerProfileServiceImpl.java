@@ -24,6 +24,8 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
             if (existing.isPresent()) {
                 throw new IllegalArgumentException("Customer ID already exists");
             }
+            else
+                customerProfileRepository.save(customer);
         }
         
         if (customer.getCurrentTier() == null || customer.getCurrentTier().isEmpty()) {
